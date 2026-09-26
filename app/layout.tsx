@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { Sidebar, type StepId } from "@/components/Sidebar";
+import { TopBar } from "@/components/TopBar";
 import { DISCLAIMER } from "@/lib/disclaimer";
 import { currentSession } from "@/lib/server/guards";
 import { requiredRedirect } from "@/lib/session/sessions";
@@ -25,7 +26,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <div className="shell">
           <Sidebar reached={reached} loggedIn={Boolean(current)} />
-          <main className="shell-main">{children}</main>
+          <main className="shell-main">
+            <TopBar loggedIn={Boolean(current)} />
+            {children}
+          </main>
         </div>
         <footer className="disclaimer" role="contentinfo">
           {DISCLAIMER}

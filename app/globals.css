@@ -119,7 +119,7 @@ code { font-size: 0.85em; }
   margin: 0 auto;
   padding: 36px 40px 6rem;
 }
-.shell-main { min-width: 0; }
+.shell-main { min-width: 0; position: relative; }
 .sidebar {
   position: sticky; top: 36px;
   height: calc(100dvh - 36px - 5rem);
@@ -167,6 +167,10 @@ a.nav-current:hover { background: var(--pill-bg); }
 }
 .nav-logout:hover { opacity: 0.88; }
 .nav-logout:active { transform: scale(0.98); }
+/* Top-right logout: on the status row on desktop, pinned in the sticky strip on phones. */
+.topbar { position: absolute; top: -3px; right: 0; z-index: 3; animation: fade-in var(--dur) var(--ease) both; }
+.topbar .nav-logout { width: auto; gap: 18px; padding: 11px 18px; font-size: 0.88rem; box-shadow: var(--shadow); }
+.topbar ~ .page-enter > :first-child { margin-right: 190px; }
 
 .disclaimer {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 20;
@@ -476,8 +480,15 @@ textarea:focus { outline: none; box-shadow: inset 0 0 0 2px var(--blue); }
   .nav-list { display: flex; gap: 4px; }
   .nav-item { padding: 8px 12px; font-size: 0.85rem; white-space: nowrap; }
   .nav-mark { width: 18px; height: 18px; font-size: 0.65rem; }
-  .sidebar-foot { margin: 0 0 0 auto; }
-  .nav-logout { padding: 8px 12px; font-size: 0.85rem; white-space: nowrap; gap: 6px; }
+  .sidebar-foot { display: none; }
+  .topbar {
+    position: fixed; top: 0; right: 0; z-index: 12; height: 56px; /* the strip is 57px incl. its border */
+    display: flex; align-items: center; padding: 0 12px 0 32px;
+    background: linear-gradient(to right, transparent, var(--bg) 26px);
+  }
+  .topbar .nav-logout { padding: 8px 12px; font-size: 0.8rem; white-space: nowrap; gap: 8px; }
+  .topbar ~ .page-enter > :first-child { margin-right: 0; }
+  body:has(.topbar) .sidebar { padding-right: 150px; }
   h1 { font-size: 1.75rem; }
   h2, legend { font-size: 1.3rem; }
   .card { padding: 22px; border-radius: 22px; }
