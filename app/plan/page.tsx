@@ -4,7 +4,6 @@ import { ChecksTable } from "@/components/ChecksTable";
 import { PlanActions } from "@/components/PlanActions";
 import { PlanTable, PlanTotals } from "@/components/PlanTable";
 import { StatusBar } from "@/components/StatusBar";
-import { Stepper } from "@/components/Stepper";
 import { formatDate, formatTimeIST } from "@/lib/dates";
 import { HORIZON_LABELS } from "@/lib/data/list";
 import { formatBucket, formatRupees } from "@/lib/money";
@@ -46,7 +45,6 @@ export default async function PlanPage() {
 
   return (
     <>
-      <Stepper current={3} />
       <StatusBar list={list} prices={prices} sessionExpiresAt={session.expiresAt} />
       <h1>
         {formatBucket(session.bucketPaise)} · {HORIZON_LABELS[session.horizon]}

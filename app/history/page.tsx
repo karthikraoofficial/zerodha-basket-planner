@@ -12,9 +12,9 @@ export default async function HistoryPage() {
   const plans = await listSavedPlans(runtime().store, session.kiteUserId);
   return (
     <>
-      <p className="sub">
-        <Link href="/plan">← Back to the plan</Link>
-      </p>
+      <Link href="/plan" className="crumb">
+        ← Back to the plan
+      </Link>
       <h1>My past plans</h1>
       {plans.length === 0 ? (
         <p className="note">No saved plans yet. Use &ldquo;Save plan&rdquo; on a plan to keep a snapshot here.</p>

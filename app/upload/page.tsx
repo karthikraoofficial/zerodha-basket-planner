@@ -16,9 +16,9 @@ export default async function UploadPage() {
 
   return (
     <>
-      <p className="sub">
-        <Link href="/setup">← Back</Link>
-      </p>
+      <Link href="/setup" className="crumb">
+        ← Back
+      </Link>
       <StatusBar list={list} prices={prices} sessionExpiresAt={session.expiresAt} />
       <h1>Update today&apos;s list</h1>
       <ol className="steps-howto">
