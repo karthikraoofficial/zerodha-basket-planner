@@ -112,3 +112,12 @@ td.reason { white-space: normal; min-width: 11rem; }
 .history a { display: grid; gap: 0.2rem; padding: 0.75rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--fg); text-decoration: none; }
 .history a:hover { border-color: var(--accent); }
 form + .table-wrap, .actions + form { margin-bottom: 0.75rem; }
+.steps-howto { padding-left: 1.2rem; }
+.steps-howto li { margin-bottom: 0.6rem; }
+.instruction { margin-top: 0.4rem; display: grid; gap: 0.4rem; justify-items: start; }
+.instruction pre { margin: 0; max-height: 12rem; overflow: auto; width: 100%; white-space: pre-wrap; font-size: 0.75rem; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 0.6rem; }
+.upload { display: grid; gap: 0.6rem; }
+.field-label { font-weight: 600; }
+textarea { width: 100%; font: 0.8rem/1.4 ui-monospace, Consolas, monospace; padding: 0.6rem; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
+.success { padding: 0.6rem 0.8rem; border-radius: 8px; border: 1px solid var(--ok); background: var(--surface); }
+code { font-size: 0.85em; }

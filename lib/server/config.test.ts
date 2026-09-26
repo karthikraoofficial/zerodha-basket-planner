@@ -38,3 +38,13 @@ describe("configProblems (production)", () => {
     expect(configProblems({ ...complete, KITE_MOCK: "1" })).toEqual(["KITE_MOCK must not be set in production"]);
   });
 });
+
+describe("publishingRepo", () => {
+  it("uses the repo Vercel deployed from, or GITHUB_REPO", async () => {
+    const { publishingRepo } = await import("./config");
+    expect(publishingRepo({ VERCEL_GIT_REPO_OWNER: "me", VERCEL_GIT_REPO_SLUG: "basket" })).toBe("me/basket");
+    expect(publishingRepo({ GITHUB_REPO: "me/other", VERCEL_GIT_REPO_OWNER: "me", VERCEL_GIT_REPO_SLUG: "basket" })).toBe("me/other");
+    expect(publishingRepo({ GITHUB_REPO: "not a repo" })).toBeNull();
+    expect(publishingRepo({})).toBeNull();
+  });
+});

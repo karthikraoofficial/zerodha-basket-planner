@@ -86,3 +86,17 @@ describe("loadList", () => {
     expect(result.status === "ok" && result.warnings).toEqual(["6-12m has only 2 names (14 recommended for backfill)"]);
   });
 });
+
+describe("parseListText (pasted lists)", () => {
+  it("gives the same result as loading the file", async () => {
+    const { parseListText } = await import("./list");
+    const text = JSON.stringify(listFile());
+    expect(parseListText(text, FRI_NOON)).toEqual(loadList(writeTemp(text), FRI_NOON));
+  });
+
+  it("rejects a screen date in the future", async () => {
+    const { parseListText } = await import("./list");
+    const result = parseListText(JSON.stringify(listFile({ screen_date: "2026-09-28" })), FRI_NOON);
+    expect(result).toEqual({ status: "invalid", issues: ["screen_date: 2026-09-28 is after today (2026-09-25)"] });
+  });
+});

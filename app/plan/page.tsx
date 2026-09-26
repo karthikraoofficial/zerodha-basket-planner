@@ -62,6 +62,11 @@ export default async function PlanPage() {
       ) : result.status === "blocked" ? (
         <div className="alert">
           <p>{BLOCKED[result.reason]}</p>
+          {result.reason.startsWith("list-") && (
+            <p>
+              <Link href="/upload">Publish today&apos;s list</Link>
+            </p>
+          )}
           {result.detail && (
             <ul>
               {result.detail.slice(0, 10).map((d) => (
