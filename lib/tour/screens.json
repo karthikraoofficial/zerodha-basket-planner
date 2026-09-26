@@ -1,0 +1,52 @@
+{
+  "steps": [
+    {
+      "id": "login",
+      "title": "Log in with Kite",
+      "caption": "Sign in on Zerodha's own page. The app only reads holdings and funds, and never places orders.",
+      "capture": { "path": "/login", "session": false }
+    },
+    {
+      "id": "setup",
+      "title": "Choose a bucket and horizon",
+      "caption": "Pick how much to plan for and a profit horizon. Horizons missing from today's list are greyed out.",
+      "capture": { "path": "/setup", "session": true }
+    },
+    {
+      "id": "plan",
+      "title": "The plan at a glance",
+      "caption": "Built from today's ranked list and NSE closes. The Basket card shows how the bucket splits across names.",
+      "capture": { "path": "/plan", "session": true }
+    },
+    {
+      "id": "charts",
+      "title": "Bucket, cash and totals",
+      "caption": "How much of the bucket is committed at limits, where your cash reaches, and the plan's key numbers.",
+      "capture": { "path": "/plan", "session": true, "scrollTo": ".dash-row > .card + .card" }
+    },
+    {
+      "id": "checks",
+      "title": "Checks for every candidate",
+      "caption": "The candidate funnel, then every candidate, pass or fail, with the numbers behind each decision.",
+      "capture": { "path": "/plan", "session": true, "scrollTo": ".funnel" }
+    },
+    {
+      "id": "history",
+      "title": "My past plans",
+      "caption": "Save plan keeps a snapshot. Every saved plan is listed here.",
+      "capture": { "path": "/history", "session": true }
+    },
+    {
+      "id": "saved",
+      "title": "A saved plan",
+      "caption": "A read-only record of the plan as it was, with the same charts. No Kite calls.",
+      "capture": { "path": "/history/:latest", "session": true }
+    },
+    {
+      "id": "upload",
+      "title": "Update today's list",
+      "caption": "Publish each day's ranked list by pasting the JSON from Cowork. It is checked before it goes live.",
+      "capture": { "path": "/upload", "session": true }
+    }
+  ]
+}

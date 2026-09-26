@@ -12,6 +12,7 @@ A single-user, **read-only** Next.js app: Kite login → bucket & horizon → ba
 - `npm test` — Vitest
 - `npm run build` — validates the data files (prebuild), then `next build`
 - `npm run dev` — local dev (`KITE_MOCK=1` uses the mock Kite client)
+- `npm run screenshots` — recapture the "How this site works" screenshots (`public/tour/`) from a running `KITE_MOCK=1` dev server; set `BASE` if it isn't on :3000. Rerun after UI changes (ADR 0006).
 
 ## Agent skills
 
