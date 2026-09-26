@@ -5,7 +5,7 @@ import { randomBytes } from "node:crypto";
 import { createHttpKite, type Kite } from "../kite/client";
 import { createMockKite } from "../kite/mock";
 import { createSessions, type Sessions } from "../session/sessions";
-import { createMemoryStore, createUpstashStore, type KeyValueStore } from "../session/store";
+import { createMemoryStore, createUpstashStore, type KeyValueStore, type MemoryData } from "../session/store";
 
 type Runtime = {
   store: KeyValueStore;
@@ -30,12 +30,13 @@ function build(): Runtime {
 
   const hasUpstash = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
   if (!hasUpstash && isProduction && !mockKite) throw new Error("Upstash Redis is required in production");
-  const store = hasUpstash ? createUpstashStore() : createMemoryStore();
+  const store = hasUpstash ? createUpstashStore() : createMemoryStore(devState.memory);
 
   // Local dev without a key gets a random one per process: sessions just don't survive restarts.
-  const encryptionKey = process.env.TOKEN_ENC_KEY ?? (isProduction && !mockKite ? required("TOKEN_ENC_KEY") : randomBytes(32).toString("base64"));
+  const encryptionKey =
+    process.env.TOKEN_ENC_KEY ?? (isProduction && !mockKite ? required("TOKEN_ENC_KEY") : devState.key);
   const kite = mockKite
-    ? createMockKite({ userId: process.env.KITE_USER_ID ?? "MOCK01" })
+    ? createMockKite({ userId: process.env.KITE_USER_ID ?? "MOCK01", liveTokens: devState.mockTokens })
     : createHttpKite({ apiKey: required("KITE_API_KEY"), apiSecret: required("KITE_API_SECRET") });
 
   return {
@@ -48,9 +49,19 @@ function build(): Runtime {
   };
 }
 
-// One instance per server process (and across dev hot reloads).
-const globalForRuntime = globalThis as unknown as { __basketRuntime?: Runtime };
+// Next dev evaluates this module once per server layer (pages, route handlers, actions) and again
+// on every hot reload. Keep only dev *state* on globalThis so all copies share it; the code is
+// rebuilt per evaluation so edits take effect.
+type DevState = { memory: MemoryData; key: string; mockTokens: Set<string> };
+const g = globalThis as unknown as { __basketDevState?: DevState };
+const devState = (g.__basketDevState ??= {
+  memory: new Map(),
+  key: randomBytes(32).toString("base64"),
+  mockTokens: new Set(),
+});
+
+let instance: Runtime | undefined;
 
 export function runtime(): Runtime {
-  return (globalForRuntime.__basketRuntime ??= build());
+  return (instance ??= build());
 }

@@ -1,15 +1,17 @@
 import { redirect } from "next/navigation";
 import { ChecksTable } from "@/components/ChecksTable";
+import { PlanActions } from "@/components/PlanActions";
 import { PlanTable, PlanTotals } from "@/components/PlanTable";
 import { StatusBar } from "@/components/StatusBar";
 import { Stepper } from "@/components/Stepper";
-import { formatDate } from "@/lib/dates";
+import { formatDate, formatTimeIST } from "@/lib/dates";
 import { HORIZON_LABELS } from "@/lib/data/list";
 import { formatBucket, formatRupees } from "@/lib/money";
 import { buildPlan, type BlockReason } from "@/lib/plan/build";
 import { currentData } from "@/lib/server/data";
 import { requireSetup } from "@/lib/server/guards";
 import { runtime } from "@/lib/server/runtime";
+import { consumePlanBuild, PLAN_BUILDS_PER_HOUR } from "@/lib/session/ratelimit";
 
 const BLOCKED: Record<BlockReason, string> = {
   "list-missing": "Today's ranked list (data/latest.json) is missing, so no plan can be built.",
@@ -25,14 +27,17 @@ export default async function PlanPage() {
   const { session } = await requireSetup();
   const now = new Date();
   const { list, prices } = currentData(now);
-  const result = await buildPlan({
-    account: runtime().kite.account(session.accessToken),
-    list,
-    prices,
-    bucketPaise: session.bucketPaise,
-    horizon: session.horizon,
-    now,
-  });
+  const allowed = await consumePlanBuild(runtime().store, session.kiteUserId, now);
+  const result = allowed.ok
+    ? await buildPlan({
+        account: runtime().kite.account(session.accessToken),
+        list,
+        prices,
+        bucketPaise: session.bucketPaise,
+        horizon: session.horizon,
+        now,
+      })
+    : ({ status: "rate-limited", retryAt: allowed.retryAt } as const);
   if (result.status === "session-expired") redirect("/api/session/expired");
 
   return (
@@ -46,7 +51,11 @@ export default async function PlanPage() {
         <a href="/setup">Change bucket or horizon</a>
       </p>
 
-      {result.status === "blocked" ? (
+      {result.status === "rate-limited" ? (
+        <p className="alert">
+          Plan limit reached ({PLAN_BUILDS_PER_HOUR} an hour). Try again after {formatTimeIST(result.retryAt)} IST.
+        </p>
+      ) : result.status === "blocked" ? (
         <div className="alert">
           <p>{BLOCKED[result.reason]}</p>
           {result.detail && (
@@ -70,6 +79,7 @@ export default async function PlanPage() {
               ? ` · short by ${formatRupees(result.plan.cash.shortByPaise)} for this plan`
               : " · covers this plan"}
           </p>
+          <PlanActions plan={result.plan} />
           <PlanTotals plan={result.plan} />
           {result.plan.positions.length ? (
             <PlanTable plan={result.plan} />

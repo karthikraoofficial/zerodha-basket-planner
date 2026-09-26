@@ -10,6 +10,8 @@ export type MockKiteOptions = {
   availableCash?: number;
   /** Simulate the 06:00 IST expiry: account calls after this many fail with a session error. */
   expireAfterCalls?: number;
+  /** Issued tokens; pass a shared set to keep them valid across instances. */
+  liveTokens?: Set<string>;
 };
 
 export function createMockKite({
@@ -18,8 +20,8 @@ export function createMockKite({
   holdings = [],
   availableCash = 1_00_000,
   expireAfterCalls = Infinity,
+  liveTokens: live = new Set<string>(),
 }: MockKiteOptions = {}): Kite {
-  const live = new Set<string>();
   let calls = 0;
   const guard = (accessToken: string) => {
     calls++;
