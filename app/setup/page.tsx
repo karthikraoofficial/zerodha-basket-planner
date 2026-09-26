@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Stepper } from "@/components/Stepper";
 import { StatusBar } from "@/components/StatusBar";
 import { BUCKET_DEPTHS } from "@/lib/allocate/allocate";
@@ -18,6 +19,9 @@ export default async function SetupPage({ searchParams }: { searchParams: Promis
       <Stepper current={2} />
       <StatusBar list={list} prices={prices} sessionExpiresAt={session.expiresAt} />
       <h1>Choose a bucket and horizon</h1>
+      <p className="sub">
+        <Link href="/upload">Update today&apos;s list</Link> · <Link href="/history">My past plans</Link>
+      </p>
       {error && <p className="alert">Pick one bucket and one of the available horizons.</p>}
       <form action={selectSetup} className="setup">
         <fieldset>

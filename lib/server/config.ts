@@ -18,3 +18,11 @@ export function configProblems(env: Env): string[] {
   if (!hasUpstash(env)) problems.push("Upstash Redis missing (UPSTASH_REDIS_REST_URL/TOKEN or KV_REST_API_URL/TOKEN)");
   return problems;
 }
+
+/** "owner/name" to publish lists to: GITHUB_REPO, else the repo Vercel deployed from. */
+export function publishingRepo(env: Env): string | null {
+  const repo =
+    env.GITHUB_REPO ??
+    (env.VERCEL_GIT_REPO_OWNER && env.VERCEL_GIT_REPO_SLUG ? `${env.VERCEL_GIT_REPO_OWNER}/${env.VERCEL_GIT_REPO_SLUG}` : "");
+  return /^[\w.-]+\/[\w.-]+$/.test(repo) ? repo : null;
+}

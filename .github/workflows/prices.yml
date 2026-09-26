@@ -46,6 +46,7 @@ jobs:
             echo "prices unchanged"
           else
             git commit -m "Update NSE prices"
+            git pull --rebase origin main # a list may have been published meanwhile
             git push
           fi
       - name: Report failure
