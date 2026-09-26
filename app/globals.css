@@ -13,11 +13,13 @@
   --tan: #c1a07e;
   --slate: #8b9095;
   --cream: #f1ede5;
-  --ok: #1f7a4a;
-  --warn: #9a5b00;
+  --ok: #186a3f;
+  --warn: #874f00;
   --bad: #b3261e;
   --pill-bg: #0e0e0d;
   --pill-fg: #ffffff;
+  /* Tan used as text on the pill surface (black in light, cream in dark). */
+  --tan-on-pill: #c1a07e;
   /* Chart series: validated with the dataviz palette checks against the beige card (light) and dark card. */
   --s1: #2b3ad1;
   --s2: #d9773a;
@@ -55,6 +57,7 @@
     --bad: #ff8a80;
     --pill-bg: #f2efe9;
     --pill-fg: #121210;
+    --tan-on-pill: #7a5a34;
     --s1: #6571f5;
     --s2: #d06f33;
     --s3: #1baf7a;
@@ -249,7 +252,7 @@ legend { font-weight: 700; font-size: 1.6rem; letter-spacing: -0.02em; margin-bo
 .choice input { position: absolute; opacity: 0; pointer-events: none; }
 .choice:has(input:checked) { background: var(--pill-bg); color: var(--pill-fg); box-shadow: var(--shadow); }
 .choice:has(input:checked) .choice-sub { color: color-mix(in srgb, var(--pill-fg) 70%, transparent); }
-.choice:has(input:checked)::after { content: "✓"; position: absolute; top: 12px; right: 14px; font-size: 0.8rem; font-weight: 700; color: var(--tan); animation: fade-in var(--dur) var(--ease) both; }
+.choice:has(input:checked)::after { content: "✓"; position: absolute; top: 12px; right: 14px; font-size: 0.8rem; font-weight: 700; color: var(--tan-on-pill); animation: fade-in var(--dur) var(--ease) both; }
 .choice:has(input:focus-visible) { outline: 2px solid var(--blue); outline-offset: 3px; }
 .choice-main { font-weight: 700; font-size: 1.05rem; }
 .choice-sub { font-size: 0.8rem; color: var(--muted); transition: color var(--dur) var(--ease); }
@@ -303,12 +306,12 @@ tfoot td { font-weight: 700; border-top: 1px solid var(--line); border-bottom: 0
 .lede { font-size: 1.1rem; max-width: 34rem; color: color-mix(in srgb, var(--fg) 80%, transparent); margin-bottom: 28px; }
 .hero-side { display: flex; flex-direction: column; justify-content: space-between; gap: 28px; padding: 40px; }
 .callout { font-size: 1.9rem; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; margin: 0; }
-.callout span { color: var(--tan); }
+.callout span { color: var(--tan-on-pill); }
 .hero-steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 12px; font-size: 0.92rem; }
 .hero-steps li { counter-increment: s; display: flex; align-items: center; gap: 12px; color: color-mix(in srgb, var(--pill-fg) 80%, transparent); }
 .hero-steps li::before {
   content: counter(s); display: inline-grid; place-items: center; width: 26px; height: 26px; flex: none;
-  border-radius: 50%; border: 1.5px solid var(--tan); color: var(--tan); font-size: 0.75rem; font-weight: 700;
+  border-radius: 50%; border: 1.5px solid var(--tan-on-pill); color: var(--tan-on-pill); font-size: 0.75rem; font-weight: 700;
 }
 
 /* ---------- Setup ---------- */
