@@ -84,6 +84,11 @@ export function loadList(path: string, now: Date): LoadListResult {
   } catch {
     return { status: "missing" };
   }
+  return parseListText(text, now);
+}
+
+/** Validate a list from its JSON text (a committed file or a pasted upload). */
+export function parseListText(text: string, now: Date): LoadListResult {
   let raw: unknown;
   try {
     raw = JSON.parse(text);
@@ -121,8 +126,12 @@ export function loadList(path: string, now: Date): LoadListResult {
       ]),
     ),
   };
+  const today = istDate(now);
+  if (list.screenDate > today) {
+    return { status: "invalid", issues: [`screen_date: ${list.screenDate} is after today (${today})`] };
+  }
   const availableHorizons = HORIZONS.filter((h) => list.horizons[h]);
-  const tradingDaysOld = tradingDaysAfter(list.screenDate, istDate(now));
+  const tradingDaysOld = tradingDaysAfter(list.screenDate, today);
   if (tradingDaysOld > MAX_LIST_AGE_TRADING_DAYS) {
     return { status: "stale", list, availableHorizons, tradingDaysOld };
   }
