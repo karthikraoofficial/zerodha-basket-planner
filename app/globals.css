@@ -295,19 +295,56 @@ tfoot td { font-weight: 700; border-top: 1px solid var(--line); border-bottom: 0
 .cash { font-size: 0.9rem; margin: 0; }
 .cash-short { color: var(--warn); font-weight: 600; }
 
+/* ---------- Login ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 20px; }
+.hero-main { padding: 48px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-height: 360px; }
+.hero-main h1 { font-size: 3rem; }
+.hero-main .button { margin-top: auto; }
+.lede { font-size: 1.1rem; max-width: 34rem; color: color-mix(in srgb, var(--fg) 80%, transparent); margin-bottom: 28px; }
+.hero-side { display: flex; flex-direction: column; justify-content: space-between; gap: 28px; padding: 40px; }
+.callout { font-size: 1.9rem; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; margin: 0; }
+.callout span { color: var(--tan); }
+.hero-steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 12px; font-size: 0.92rem; }
+.hero-steps li { counter-increment: s; display: flex; align-items: center; gap: 12px; color: color-mix(in srgb, var(--pill-fg) 80%, transparent); }
+.hero-steps li::before {
+  content: counter(s); display: inline-grid; place-items: center; width: 26px; height: 26px; flex: none;
+  border-radius: 50%; border: 1.5px solid var(--tan); color: var(--tan); font-size: 0.75rem; font-weight: 700;
+}
+
+/* ---------- Setup ---------- */
+.setup { display: grid; gap: 20px; }
+.setup .card { padding: 30px 32px 32px; }
+.setup legend { float: left; width: 100%; }
+.setup legend + * { clear: both; }
+
 /* ---------- History ---------- */
-.history { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.history { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 12px; }
+.history li { animation: fade-up var(--dur) var(--ease) both; animation-delay: calc(var(--i, 0) * 50ms); }
 .history a {
-  display: grid; gap: 4px; padding: 22px 26px; border-radius: 22px;
+  position: relative; display: grid; gap: 6px; padding: 24px 64px 24px 28px; border-radius: 22px;
   background: var(--card-grey); color: var(--fg); text-decoration: none;
-  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), background-color var(--dur) var(--ease);
 }
 .history a:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+.history-figure { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.history-figure span { color: var(--muted); font-weight: 600; font-size: 1.1rem; }
+.history-go {
+  position: absolute; right: 24px; top: 50%; translate: 0 -50%;
+  display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--pill-bg); color: var(--pill-fg); font-size: 0.9rem;
+  transition: transform var(--dur) var(--ease);
+}
+.history a:hover .history-go { transform: rotate(45deg); }
 
 /* ---------- Upload ---------- */
-.steps-howto { padding-left: 1.2rem; }
-.steps-howto li { margin-bottom: 0.6rem; }
-.instruction { margin-top: 0.6rem; display: grid; gap: 0.6rem; justify-items: start; }
+.steps-howto { list-style: none; padding: 0; margin: 24px 0 20px; counter-reset: step; display: grid; gap: 12px; }
+.steps-howto li { counter-increment: step; position: relative; padding: 26px 28px 26px 76px; border-radius: 22px; }
+.steps-howto li::before {
+  content: counter(step); position: absolute; left: 26px; top: 24px;
+  display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--pill-bg); color: var(--pill-fg); font-weight: 700; font-size: 0.85rem;
+}
+.instruction { margin-top: 14px; display: grid; gap: 10px; justify-items: start; }
 .instruction pre, textarea {
   width: 100%; margin: 0; border: 0; border-radius: 16px;
   background: var(--well); color: var(--fg);
@@ -315,10 +352,12 @@ tfoot td { font-weight: 700; border-top: 1px solid var(--line); border-bottom: 0
   font: 0.78rem/1.5 ui-monospace, Consolas, monospace; padding: 14px 16px;
   transition: box-shadow var(--dur-fast) var(--ease);
 }
+.card-beige .instruction pre { background: color-mix(in srgb, var(--bg) 70%, var(--card-beige)); }
 .instruction pre { max-height: 12rem; overflow: auto; white-space: pre-wrap; }
+textarea { resize: vertical; }
 textarea:focus { outline: none; box-shadow: inset 0 0 0 2px var(--blue); }
 .upload { display: grid; gap: 12px; }
-.field-label { font-weight: 700; }
+.field-label { font-weight: 700; font-size: 1.15rem; }
 
 /* ---------- Plan dashboard ---------- */
 .dash { display: grid; gap: 20px; }
@@ -439,6 +478,13 @@ textarea:focus { outline: none; box-shadow: inset 0 0 0 2px var(--blue); }
   h1 { font-size: 1.75rem; }
   h2, legend { font-size: 1.3rem; }
   .card { padding: 22px; border-radius: 22px; }
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .hero-main, .hero-side { padding: 26px; min-height: 0; }
+  .hero-main h1 { font-size: 2.1rem; }
+  .callout { font-size: 1.5rem; }
+  .steps-howto li { padding: 20px 20px 20px 64px; }
+  .steps-howto li::before { left: 18px; top: 18px; }
+  .history a { padding: 20px 60px 20px 22px; }
   .statusbar { margin-bottom: 20px; gap: 6px; }
   .chip { font-size: 0.74rem; padding: 6px 11px; }
   .totals { grid-template-columns: 1fr 1fr; gap: 16px; }

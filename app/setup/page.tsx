@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { StatusBar } from "@/components/StatusBar";
 import { BUCKET_DEPTHS } from "@/lib/allocate/allocate";
 import { HORIZON_LABELS, HORIZONS } from "@/lib/data/list";
@@ -17,12 +18,12 @@ export default async function SetupPage({ searchParams }: { searchParams: Promis
     <>
       <StatusBar list={list} prices={prices} sessionExpiresAt={session.expiresAt} />
       <h1>Choose a bucket and horizon</h1>
-      <p className="sub">
+      <p className="links">
         <Link href="/upload">Update today&apos;s list</Link> · <Link href="/history">My past plans</Link>
       </p>
       {error && <p className="alert">Pick one bucket and one of the available horizons.</p>}
       <form action={selectSetup} className="setup">
-        <fieldset>
+        <fieldset className="card" style={{ "--i": 0 } as CSSProperties}>
           <legend>Bucket</legend>
           <div className="choices">
             {[...BUCKET_DEPTHS].map(([paise, depth]) => (
@@ -34,7 +35,7 @@ export default async function SetupPage({ searchParams }: { searchParams: Promis
             ))}
           </div>
         </fieldset>
-        <fieldset>
+        <fieldset className="card" style={{ "--i": 1 } as CSSProperties}>
           <legend>Profit horizon</legend>
           <div className="choices">
             {HORIZONS.map((h) => {
@@ -56,9 +57,11 @@ export default async function SetupPage({ searchParams }: { searchParams: Promis
             })}
           </div>
         </fieldset>
-        <button className="button" type="submit">
-          See the plan
-        </button>
+        <div>
+          <button className="button" type="submit">
+            See the plan <span aria-hidden>→</span>
+          </button>
+        </div>
       </form>
     </>
   );
