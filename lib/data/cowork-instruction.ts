@@ -1,13 +1,14 @@
-// Pasted into the Claude Cowork chat after a screen run, so the result comes back in the exact
-// format the Update list page accepts (data/latest.json, schema v2).
-export function coworkInstruction(today: string): string {
-  return `Now output today's screen results as ONE JSON object and nothing else: no prose and no code fences.
+// Saved once in the Claude Cowork project (or pasted after a screen run) so results come back in
+// the exact format the Update list page accepts (data/latest.json, schema v2). No literal dates:
+// it must stay correct when reused day after day.
+export function coworkInstruction(): string {
+  return `When a screen run finishes, end your reply with the results as ONE JSON object and nothing after it: no code fences.
 
 Use exactly this shape:
 {
   "schema_version": 2,
-  "screen_date": "${today}",
-  "generated_at": "<current time, ISO 8601 UTC, e.g. ${today}T03:10:00Z>",
+  "screen_date": "<today's date in India (IST), YYYY-MM-DD>",
+  "generated_at": "<the current time, ISO 8601 in UTC, e.g. 2026-09-28T03:10:00Z>",
   "horizons": {
     "3-6m":   { "candidates": [ ... ] },
     "6-12m":  { "candidates": [ ... ] },

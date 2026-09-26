@@ -2,7 +2,6 @@ import Link from "next/link";
 import { CopyButton } from "@/components/CopyButton";
 import { StatusBar } from "@/components/StatusBar";
 import { UploadListForm } from "@/components/UploadListForm";
-import { istDate } from "@/lib/data/calendar";
 import { coworkInstruction } from "@/lib/data/cowork-instruction";
 import { publishingRepo } from "@/lib/server/config";
 import { currentData } from "@/lib/server/data";
@@ -13,7 +12,7 @@ export default async function UploadPage() {
   const now = new Date();
   const { list, prices } = currentData(now);
   const configured = Boolean(process.env.GITHUB_TOKEN && publishingRepo(process.env));
-  const instruction = coworkInstruction(istDate(now));
+  const instruction = coworkInstruction();
 
   return (
     <>
@@ -23,15 +22,16 @@ export default async function UploadPage() {
       <StatusBar list={list} prices={prices} sessionExpiresAt={session.expiresAt} />
       <h1>Update today&apos;s list</h1>
       <ol className="steps-howto">
-        <li>Run your screen in Claude Cowork.</li>
         <li>
-          Paste the instruction below into that chat. It replies with the list as JSON.
+          Once: save the instruction below in your Cowork project&apos;s instructions, so every screen run ends with
+          the list as JSON. (Or paste it into the chat after a run.)
           <div className="instruction">
             <pre>{instruction}</pre>
             <CopyButton text={instruction} label="Copy instruction" />
           </div>
         </li>
-        <li>Paste the reply here and publish. It&apos;s checked first; nothing goes live unless it&apos;s valid.</li>
+        <li>Each day: run the screen in Cowork, copy the JSON it ends with, paste it here and publish.</li>
+        <li>It&apos;s checked first; nothing goes live unless it&apos;s valid. The app updates in about 3–5 minutes.</li>
       </ol>
 
       {!configured && (
