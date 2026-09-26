@@ -3,6 +3,7 @@
 import "server-only";
 import { randomBytes } from "node:crypto";
 import { createHttpKite, type Kite } from "../kite/client";
+import { configProblems, hasUpstash } from "./config";
 import { createMockKite } from "../kite/mock";
 import { createSessions, type Sessions } from "../session/sessions";
 import { createMemoryStore, createUpstashStore, type KeyValueStore, type MemoryData } from "../session/store";
@@ -26,11 +27,14 @@ function required(name: string): string {
 
 function build(): Runtime {
   const mockKite = process.env.KITE_MOCK === "1";
-  if (mockKite && process.env.VERCEL_ENV === "production") throw new Error("KITE_MOCK is not allowed in production");
+  if (process.env.VERCEL_ENV === "production") {
+    const problems = configProblems(process.env);
+    if (problems.length) throw new Error(`Production configuration incomplete: ${problems.join("; ")}`);
+  }
 
-  const hasUpstash = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
-  if (!hasUpstash && isProduction && !mockKite) throw new Error("Upstash Redis is required in production");
-  const store = hasUpstash ? createUpstashStore() : createMemoryStore(devState.memory);
+  const redisConfigured = hasUpstash(process.env);
+  if (!redisConfigured && isProduction && !mockKite) throw new Error("Upstash Redis is required in production");
+  const store = redisConfigured ? createUpstashStore() : createMemoryStore(devState.memory);
 
   // Local dev without a key gets a random one per process: sessions just don't survive restarts.
   const encryptionKey =
