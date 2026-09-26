@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChecksTable } from "@/components/ChecksTable";
 import { PlanActions } from "@/components/PlanActions";
@@ -8,10 +9,12 @@ import { formatDate, formatTimeIST } from "@/lib/dates";
 import { HORIZON_LABELS } from "@/lib/data/list";
 import { formatBucket, formatRupees } from "@/lib/money";
 import { buildPlan, type BlockReason } from "@/lib/plan/build";
+import { saveDraft } from "@/lib/plan/history";
 import { currentData } from "@/lib/server/data";
 import { requireSetup } from "@/lib/server/guards";
 import { runtime } from "@/lib/server/runtime";
 import { consumePlanBuild, PLAN_BUILDS_PER_HOUR } from "@/lib/session/ratelimit";
+import { savePlan } from "./actions";
 
 const BLOCKED: Record<BlockReason, string> = {
   "list-missing": "Today's ranked list (data/latest.json) is missing, so no plan can be built.",
@@ -39,6 +42,7 @@ export default async function PlanPage() {
       })
     : ({ status: "rate-limited", retryAt: allowed.retryAt } as const);
   if (result.status === "session-expired") redirect("/api/session/expired");
+  if (result.status === "ok") await saveDraft(runtime().store, session.kiteUserId, result.plan);
 
   return (
     <>
@@ -48,7 +52,7 @@ export default async function PlanPage() {
         {formatBucket(session.bucketPaise)} · {HORIZON_LABELS[session.horizon]}
       </h1>
       <p className="sub">
-        <a href="/setup">Change bucket or horizon</a>
+        <Link href="/setup">Change bucket or horizon</Link> · <Link href="/history">My past plans</Link>
       </p>
 
       {result.status === "rate-limited" ? (
@@ -80,6 +84,11 @@ export default async function PlanPage() {
               : " · covers this plan"}
           </p>
           <PlanActions plan={result.plan} />
+          <form action={savePlan}>
+            <button className="button" type="submit" disabled={!result.plan.positions.length}>
+              Save plan
+            </button>
+          </form>
           <PlanTotals plan={result.plan} />
           {result.plan.positions.length ? (
             <PlanTable plan={result.plan} />
