@@ -1,4 +1,4 @@
-// Basket allocation (spec §6b). Pure and deterministic; all money in integer paise.
+// Basket allocation (PRD #1, stories 23–30). Pure and deterministic; all money in integer paise.
 // Weight is measured against the bucket (qty × limit ÷ bucket), which is what reproduces the
 // hand-run golden plan. See CONTEXT.md for vocabulary.
 
@@ -57,7 +57,7 @@ export type AllocationResult = {
   };
 };
 
-/** Bucket (paise) → how many names it holds at most (spec §6b). */
+/** Bucket (paise) → how many names it holds at most (PRD #1, implementation decisions). */
 export const BUCKET_DEPTHS: ReadonlyMap<number, number> = new Map([
   [500_000, 4],
   [1_000_000, 6],
@@ -85,7 +85,7 @@ export function buyLimitPaise(closePaise: number): number {
 
 export class AllocationInvariantError extends Error {}
 
-/** Hard rule (spec §6b): Σ(qty × limit) ≤ bucket. Checked before any plan is shown. */
+/** Hard rule (PRD #1, story 30): Σ(qty × limit) ≤ bucket. Checked before any plan is shown. */
 export function assertWithinBucket(
   positions: readonly { symbol: string; qty: number; limitPaise: number }[],
   bucketPaise: number,

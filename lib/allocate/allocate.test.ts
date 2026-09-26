@@ -3,7 +3,7 @@ import { allocate, buyLimitPaise, depthForBucket, type AllocCandidate } from "./
 
 const rupees = (r: number) => Math.round(r * 100);
 
-// The 24 Sep 2026 hand-run ₹1,00,000 plan (spec §8). Six names passed the live checks.
+// The 24 Sep 2026 hand-run ₹1,00,000 plan (PRD #1, testing decisions). Six names passed the live checks.
 const SEP24: AllocCandidate[] = [
   { rank: 1, symbol: "ELLEN", closePaise: rupees(361.0), upsideLowPct: 20, upsideHighPct: 40 },
   { rank: 2, symbol: "KMEW", closePaise: rupees(2956.1), upsideLowPct: 18, upsideHighPct: 35 },

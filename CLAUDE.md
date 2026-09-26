@@ -1,15 +1,16 @@
 # Zerodha Basket Planner
 
-A single-user, **read-only** Next.js app: Kite login → bucket & horizon → basket plan. It sizes a basket from the daily ranked list (`data/latest.json`) and NSE end-of-day prices (`data/prices.json`).
+A single-user, **read-only** Next.js app: Kite login → bucket & horizon → basket plan. It sizes a basket from the daily ranked list (`data/latest.json`) and NSE end-of-day prices (`data/prices.json`). Its only write path is the owner-only Update list page, which commits `data/latest.json` through the GitHub API (ADR 0007).
 
 ## Hard rules
 - **Never** call a Kite order, GTT or basket endpoint, and never add the `kiteconnect` SDK. The Kite client only allows the endpoints listed in `lib/kite/endpoints.ts`, and `tests/no-order-code.test.ts` enforces this.
-- The Kite `api_secret` and `access_token` stay server-side. Never log them, return them in errors, or save them in plans.
+- The Kite `api_secret` and `access_token`, and the `GITHUB_TOKEN`, stay server-side. Never log them, return them in errors, or save them in plans.
 - Money math is integer paise. `Σ qty × limit ≤ bucket` is asserted before a plan is shown.
 - Domain vocabulary is in `CONTEXT.md`. Decisions are in `docs/adr/`.
 
 ## Commands
 - `npm test` — Vitest
+- `npm run lint` / `npm run typecheck` — ESLint / `tsc --noEmit` (CI runs both)
 - `npm run build` — validates the data files (prebuild), then `next build`
 - `npm run dev` — local dev (`KITE_MOCK=1` uses the mock Kite client)
 - `npm run screenshots` — recapture the "How this site works" screenshots (`public/tour/`) from a running `KITE_MOCK=1` dev server; set `BASE` if it isn't on :3000. Rerun after UI changes (ADR 0006).

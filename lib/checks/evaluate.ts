@@ -1,4 +1,4 @@
-// Candidate checks (spec §6a, adapted to NSE end-of-day data; see ADR 0002).
+// Candidate checks (PRD #1 stories 15–22, adapted to NSE end-of-day data; see ADR 0002).
 // One row per candidate, in rank order, with a status and a human-readable reason.
 import type { Candidate } from "../data/list";
 import type { Prices } from "../data/prices";
@@ -70,7 +70,7 @@ export function technicalMetrics(closes: number[], tradedValues: number[]): Tech
   };
 }
 
-/** Exclusion reasons (spec §6a.4). "Below" is close < MA; "falling" is MA today < MA 10 sessions ago. */
+/** Exclusion reasons (PRD #1 stories 17–20). "Below" is close < MA; "falling" is MA today < MA 10 sessions ago. */
 function exclusions(m: TechnicalMetrics): string[] {
   const reasons: string[] = [];
   if (m.dist20Pct < 0 && m.slope20 !== null && m.slope20 < 0) reasons.push("below falling 20DMA");

@@ -2,7 +2,7 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
 
-// This app is read-only (spec §1). Any order-capable code or the Kite SDK anywhere in the
+// This app is read-only (PRD #1 and the CLAUDE.md hard rules). Any order-capable code or the Kite SDK anywhere in the
 // shipped source is a failure. Test files are exempt: they must name forbidden calls to
 // prove they are refused.
 const ROOT = join(import.meta.dirname, "..");
