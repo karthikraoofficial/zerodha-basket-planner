@@ -98,7 +98,7 @@ describe("evaluateCandidates: technical rules", () => {
 
   it("excludes a close more than 15% above its 50DMA (KPL, 24 Sep: 15.8%)", async () => {
     const { loadPrices } = await import("../data/prices");
-    const loaded = loadPrices(`${import.meta.dirname}/../../data/prices.json`, new Date("2026-09-25T06:30:00Z"));
+    const loaded = loadPrices(`${import.meta.dirname}/../../tests/fixtures/data/prices.json`, new Date("2026-09-25T06:30:00Z"));
     if (loaded.status !== "ok") throw new Error(loaded.status);
     const row = evaluateCandidates([cand(1, "KPL")], loaded.prices)[0]!;
     expect(row).toMatchObject({ status: "excluded", reason: "extended: 15.8% above 50DMA (15% max)" });

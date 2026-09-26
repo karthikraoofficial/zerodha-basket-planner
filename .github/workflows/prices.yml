@@ -1,0 +1,59 @@
+name: Update NSE prices
+
+on:
+  schedule:
+    - cron: "30 13 * * 1-5" # 19:00 IST, after NSE publishes the day's bhavcopy
+  push:
+    branches: [main]
+    paths: ["data/latest.json"] # new symbols get history the same day
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: prices
+  cancel-in-progress: false
+
+jobs:
+  prices:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Restore raw bhavcopy cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/bhavcopy
+          key: bhavcopy-${{ github.run_id }}
+          restore-keys: bhavcopy-
+      - name: Fetch prices
+        run: npx tsx scripts/fetch-prices.ts
+      - name: Validate data files
+        run: npm run validate-data
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/prices.json
+          if git diff --cached --quiet; then
+            echo "prices unchanged"
+          else
+            git commit -m "Update NSE prices"
+            git push
+          fi
+      - name: Report failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create \
+            --title "Price update failed ($(date -u +%Y-%m-%d))" \
+            --label bug --label needs-triage \
+            --body "The scheduled NSE bhavcopy fetch failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. Existing prices were left untouched; the app will show them as stale."
