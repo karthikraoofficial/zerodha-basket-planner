@@ -8,12 +8,12 @@ const ist = (s: string) => new Date(`${s}+05:30`);
 
 describe("validateDataFiles (build gate)", () => {
   it("passes the committed sample data", () => {
-    const result = validateDataFiles(join(import.meta.dirname, "../../data"), ist("2026-09-25T12:00:00"));
+    const result = validateDataFiles(join(import.meta.dirname, "../../tests/fixtures/data"), ist("2026-09-25T12:00:00"));
     expect(result.errors).toEqual([]);
   });
 
   it("does not fail the build for staleness, only warns", () => {
-    const result = validateDataFiles(join(import.meta.dirname, "../../data"), ist("2026-10-30T12:00:00"));
+    const result = validateDataFiles(join(import.meta.dirname, "../../tests/fixtures/data"), ist("2026-10-30T12:00:00"));
     expect(result.errors).toEqual([]);
     expect(result.warnings.join("\n")).toMatch(/stale/);
   });
