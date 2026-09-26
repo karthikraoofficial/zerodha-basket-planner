@@ -17,8 +17,8 @@ describe("configProblems (production)", () => {
   });
 
   it("accepts Upstash provisioned through the Vercel Marketplace (KV_* names)", () => {
-    const { UPSTASH_REDIS_REST_URL: _u, UPSTASH_REDIS_REST_TOKEN: _t, ...rest } = complete;
-    expect(configProblems({ ...rest, KV_REST_API_URL: "https://x.upstash.io", KV_REST_API_TOKEN: "t" })).toEqual([]);
+    const marketplace = { ...complete, UPSTASH_REDIS_REST_URL: undefined, UPSTASH_REDIS_REST_TOKEN: undefined };
+    expect(configProblems({ ...marketplace, KV_REST_API_URL: "https://x.upstash.io", KV_REST_API_TOKEN: "t" })).toEqual([]);
   });
 
   it("names every missing variable, never a value", () => {
