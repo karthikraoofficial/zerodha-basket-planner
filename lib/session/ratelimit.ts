@@ -1,4 +1,4 @@
-// Per-user limit on plan builds (spec §7), as a fixed hourly window in the key-value store.
+// Per-user limit on plan builds (PRD #1 story 39), as a fixed hourly window in the key-value store.
 import type { KeyValueStore } from "./store";
 
 export const PLAN_BUILDS_PER_HOUR = 30;
