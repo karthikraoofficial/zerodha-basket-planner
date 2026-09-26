@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { CopyButton } from "@/components/CopyButton";
 import { StatusBar } from "@/components/StatusBar";
 import { UploadListForm } from "@/components/UploadListForm";
@@ -16,13 +17,13 @@ export default async function UploadPage() {
 
   return (
     <>
+      <StatusBar list={list} prices={prices} sessionExpiresAt={session.expiresAt} />
       <Link href="/setup" className="crumb">
         ← Back
       </Link>
-      <StatusBar list={list} prices={prices} sessionExpiresAt={session.expiresAt} />
       <h1>Update today&apos;s list</h1>
       <ol className="steps-howto">
-        <li>
+        <li className="card card-beige" style={{ "--i": 0 } as CSSProperties}>
           Once: save the instruction below in your Cowork project&apos;s instructions, so every screen run ends with
           the list as JSON. (Or paste it into the chat after a run.)
           <div className="instruction">
@@ -30,8 +31,8 @@ export default async function UploadPage() {
             <CopyButton text={instruction} label="Copy instruction" />
           </div>
         </li>
-        <li>Each day: run the screen in Cowork, copy the JSON it ends with, paste it here and publish.</li>
-        <li>It&apos;s checked first; nothing goes live unless it&apos;s valid. The app updates in about 3–5 minutes.</li>
+        <li className="card" style={{ "--i": 1 } as CSSProperties}>Each day: run the screen in Cowork, copy the JSON it ends with, paste it here and publish.</li>
+        <li className="card" style={{ "--i": 2 } as CSSProperties}>It&apos;s checked first; nothing goes live unless it&apos;s valid. The app updates in about 3–5 minutes.</li>
       </ol>
 
       {!configured && (
@@ -43,7 +44,9 @@ export default async function UploadPage() {
           </p>
         </div>
       )}
-      <UploadListForm />
+      <section className="card card-plain" style={{ "--i": 3 } as CSSProperties}>
+        <UploadListForm />
+      </section>
     </>
   );
 }

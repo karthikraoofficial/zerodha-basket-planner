@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { redirect } from "next/navigation";
 import { StatusBar } from "@/components/StatusBar";
 import { currentData } from "@/lib/server/data";
@@ -18,15 +19,33 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   return (
     <>
       <StatusBar list={list} prices={prices} />
-      <h1>Log in with Kite</h1>
-      <p>
-        Sign in through Zerodha&apos;s own login page. This app only reads your holdings and funds, and never places
-        orders.
-      </p>
-      {error && <p className="alert">{ERRORS[error] ?? "Login failed. Please try again."}</p>}
-      <a className="button" href="/api/kite/login">
-        Log in with Kite
-      </a>
+      <div className="hero">
+        <section className="card card-beige hero-main" style={{ "--i": 0 } as CSSProperties}>
+          <h1>Log in with Kite</h1>
+          <p className="lede">
+            Sign in through Zerodha&apos;s own login page. This app only reads your holdings and funds, and never
+            places orders.
+          </p>
+          {error && <p className="alert">{ERRORS[error] ?? "Login failed. Please try again."}</p>}
+          <a className="button" href="/api/kite/login">
+            Log in with Kite <span aria-hidden>→</span>
+          </a>
+        </section>
+        <section className="card card-ink hero-side" style={{ "--i": 1 } as CSSProperties}>
+          <p className="callout">
+            Size a basket
+            <br />
+            <span>in three steps,</span>
+            <br />
+            <span>from today&apos;s ranked list.</span>
+          </p>
+          <ol className="hero-steps">
+            <li>Log in with Kite</li>
+            <li>Pick a bucket and a horizon</li>
+            <li>Read the plan, place orders yourself</li>
+          </ol>
+        </section>
+      </div>
     </>
   );
 }
