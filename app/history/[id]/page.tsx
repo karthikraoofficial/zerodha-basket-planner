@@ -21,9 +21,9 @@ export default async function SavedPlanPage({ params }: { params: Promise<{ id: 
 
   return (
     <>
-      <p className="sub">
-        <Link href="/history">← My past plans</Link>
-      </p>
+      <Link href="/history" className="crumb">
+        ← My past plans
+      </Link>
       <h1>
         {formatBucket(plan.bucketPaise)} · {HORIZON_LABELS[plan.horizon]}
       </h1>

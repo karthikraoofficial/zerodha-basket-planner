@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import { Stepper } from "@/components/Stepper";
 import { StatusBar } from "@/components/StatusBar";
 import { currentData } from "@/lib/server/data";
 import { currentSession } from "@/lib/server/guards";
@@ -18,7 +17,6 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   const { list, prices } = currentData(new Date());
   return (
     <>
-      <Stepper current={1} />
       <StatusBar list={list} prices={prices} />
       <h1>Log in with Kite</h1>
       <p>

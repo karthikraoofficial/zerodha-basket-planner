@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Stepper } from "@/components/Stepper";
 import { StatusBar } from "@/components/StatusBar";
 import { BUCKET_DEPTHS } from "@/lib/allocate/allocate";
 import { HORIZON_LABELS, HORIZONS } from "@/lib/data/list";
@@ -16,7 +15,6 @@ export default async function SetupPage({ searchParams }: { searchParams: Promis
 
   return (
     <>
-      <Stepper current={2} />
       <StatusBar list={list} prices={prices} sessionExpiresAt={session.expiresAt} />
       <h1>Choose a bucket and horizon</h1>
       <p className="sub">
@@ -60,11 +58,6 @@ export default async function SetupPage({ searchParams }: { searchParams: Promis
         </fieldset>
         <button className="button" type="submit">
           See the plan
-        </button>
-      </form>
-      <form action="/api/kite/logout" method="post" className="logout">
-        <button type="submit" className="link">
-          Log out of Kite
         </button>
       </form>
     </>
