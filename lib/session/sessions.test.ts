@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { createMemoryStore } from "./store";
-import { createSessions, InvalidSetupError, requiredRedirect } from "./sessions";
+import { createSessions, requiredRedirect } from "./sessions";
 
 const ist = (s: string) => new Date(`${s}+05:30`);
 const KEY = randomBytes(32).toString("base64");
@@ -67,9 +67,13 @@ describe("sessions", () => {
     const now = ist("2026-09-25T09:00:00");
     const sid = await sessions.start(KITE, now);
 
-    await expect(sessions.chooseSetup(sid, { bucketPaise: 750_000, horizon: "6-12m" }, now)).rejects.toBeInstanceOf(InvalidSetupError);
-    await expect(sessions.chooseSetup(sid, { bucketPaise: 10_000_000, horizon: "1-2y" }, now)).rejects.toBeInstanceOf(InvalidSetupError);
-    await sessions.chooseSetup(sid, { bucketPaise: 10_000_000, horizon: "6-12m" }, now);
+    expect(await sessions.chooseSetup(sid, { bucketPaise: 750_000, horizon: "6-12m" }, now)).toEqual({ ok: false, reason: "bucket" });
+    expect(await sessions.chooseSetup(sid, { bucketPaise: 10_000_000, horizon: "1-2y" }, now)).toEqual({ ok: false, reason: "horizon" });
+    expect(await sessions.chooseSetup("no-such-session", { bucketPaise: 10_000_000, horizon: "6-12m" }, now)).toEqual({
+      ok: false,
+      reason: "session",
+    });
+    expect(await sessions.chooseSetup(sid, { bucketPaise: 10_000_000, horizon: "6-12m" }, now)).toEqual({ ok: true });
     expect(await sessions.load(sid, now)).toMatchObject({ bucketPaise: 10_000_000, horizon: "6-12m" });
   });
 

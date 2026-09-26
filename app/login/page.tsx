@@ -9,6 +9,7 @@ const ERRORS: Record<string, string> = {
   denied: "The Kite login was cancelled.",
   "foreign-user": "This app only accepts its owner's Zerodha account.",
   kite: "Kite didn't complete the login. Please try again.",
+  expired: "Your Kite session has expired (Kite sessions end daily at 06:00 IST). Please log in again.",
 };
 
 export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {

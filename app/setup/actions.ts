@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { currentData } from "@/lib/server/data";
 import { requireKiteSession } from "@/lib/server/guards";
 import { runtime } from "@/lib/server/runtime";
-import { InvalidSetupError } from "@/lib/session/sessions";
 
 export async function selectSetup(formData: FormData) {
   const { sid } = await requireKiteSession();
@@ -15,11 +14,8 @@ export async function selectSetup(formData: FormData) {
   const { list } = currentData(now);
   const available: string[] = list.status === "ok" || list.status === "stale" ? list.availableHorizons : [];
   if (!available.includes(horizon)) redirect("/setup?error=horizon");
-  try {
-    await runtime().sessions.chooseSetup(sid, { bucketPaise, horizon }, now);
-  } catch (e) {
-    if (e instanceof InvalidSetupError) redirect("/setup?error=invalid");
-    throw e;
-  }
+
+  const result = await runtime().sessions.chooseSetup(sid, { bucketPaise, horizon }, now);
+  if (!result.ok) redirect(result.reason === "session" ? "/login" : `/setup?error=${result.reason}`);
   redirect("/plan");
 }
