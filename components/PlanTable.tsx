@@ -11,11 +11,11 @@ export function PlanTable({ plan }: { plan: Plan }) {
           <tr>
             <th className="num">#</th>
             <th className="sticky">Symbol</th>
-            <th className="num">Close</th>
-            <th className="num">Buy limit</th>
             <th className="num">Qty</th>
+            <th className="num">Buy limit</th>
             <th className="num">Amount</th>
             <th className="num">Weight / target</th>
+            <th className="num">Close</th>
             <th className="num">Upside</th>
             <th>Already held</th>
             <th>Rationale</th>
@@ -29,13 +29,13 @@ export function PlanTable({ plan }: { plan: Plan }) {
                 <strong>{p.symbol}</strong>
                 <div className="sub">{p.name}</div>
               </td>
-              <td className="num">{formatPrice(p.closePaise)}</td>
-              <td className="num">{formatPrice(p.limitPaise)}</td>
               <td className="num">{p.qty}</td>
+              <td className="num">{formatPrice(p.limitPaise)}</td>
               <td className="num">{formatRupees(p.amountPaise)}</td>
               <td className="num">
                 {pct(p.weight)} <span className="sub">/ {pct(p.targetWeight)}</span>
               </td>
+              <td className="num">{formatPrice(p.closePaise)}</td>
               <td className="num">
                 {p.upsideLowPct}–{p.upsideHighPct}%
               </td>
@@ -63,11 +63,10 @@ export function PlanTable({ plan }: { plan: Plan }) {
           <tr>
             <td />
             <td className="sticky">Total</td>
-            <td />
-            <td />
             <td className="num">{plan.totals.shares}</td>
+            <td />
             <td className="num">{formatRupees(plan.totals.committedPaise)}</td>
-            <td colSpan={4} />
+            <td colSpan={5} />
           </tr>
         </tfoot>
       </table>

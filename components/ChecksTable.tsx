@@ -23,12 +23,12 @@ export function ChecksTable({ rows, inPlan }: { rows: PlanCheckRow[]; inPlan: Se
             <th className="num">#</th>
             <th className="sticky">Symbol</th>
             <th>Result</th>
+            <th>Reason</th>
             <th className="num">Close</th>
             <th className="num">vs 20DMA</th>
             <th className="num">vs 50DMA</th>
             <th className="num">Median value</th>
             <th className="num">Sessions</th>
-            <th>Reason</th>
           </tr>
         </thead>
         <tbody>
@@ -44,6 +44,9 @@ export function ChecksTable({ rows, inPlan }: { rows: PlanCheckRow[]; inPlan: Se
                 </td>
                 <td>
                   <span className={`badge badge-${r.status}`}>{STATUS_LABEL[r.status]}</span>
+                </td>
+                <td className="reason">
+                  {r.reason || (passedButNotHeld ? "passed; beyond this bucket's depth" : "")}
                 </td>
                 <td className="num">{r.close === undefined ? "—" : inr(r.close)}</td>
                 <td className="num">
@@ -68,9 +71,6 @@ export function ChecksTable({ rows, inPlan }: { rows: PlanCheckRow[]; inPlan: Se
                 </td>
                 <td className="num">{m ? `₹${m.medianTradedValueCr.toFixed(2)} Cr` : "—"}</td>
                 <td className="num">{m?.sessions ?? "—"}</td>
-                <td className="reason">
-                  {r.reason || (passedButNotHeld ? "passed; beyond this bucket's depth" : "")}
-                </td>
               </tr>
             );
           })}
