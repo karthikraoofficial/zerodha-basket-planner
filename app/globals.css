@@ -53,3 +53,21 @@ h1 { font-size: 1.4rem; margin: 1rem 0 0.5rem; }
   background: var(--surface); border-top: 1px solid var(--line);
   font-size: 0.8rem; color: var(--muted); text-align: center;
 }
+.statusbar { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 1rem; }
+.chip { font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); background: var(--surface); }
+.chip-ok { color: var(--ok); border-color: var(--ok); }
+.chip-warn { color: var(--warn); border-color: var(--warn); }
+.chip-bad { color: var(--bad); border-color: var(--bad); }
+.alert { padding: 0.6rem 0.8rem; border-radius: 8px; border: 1px solid var(--bad); color: var(--bad); background: var(--surface); }
+fieldset { border: 0; padding: 0; margin: 0 0 1.2rem; }
+legend { font-weight: 600; margin-bottom: 0.5rem; }
+.choices { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; }
+.choice { position: relative; display: grid; gap: 0.1rem; padding: 0.7rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); cursor: pointer; }
+.choice input { position: absolute; opacity: 0; pointer-events: none; }
+.choice:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset; }
+.choice:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.choice-main { font-weight: 600; }
+.choice-sub { font-size: 0.8rem; color: var(--muted); }
+.choice-off { opacity: 0.45; cursor: not-allowed; }
+.logout { margin-top: 1.5rem; }
+.link { background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; cursor: pointer; font: inherit; }

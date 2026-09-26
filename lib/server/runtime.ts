@@ -7,7 +7,14 @@ import { createMockKite } from "../kite/mock";
 import { createSessions, type Sessions } from "../session/sessions";
 import { createMemoryStore, createUpstashStore, type KeyValueStore } from "../session/store";
 
-type Runtime = { store: KeyValueStore; sessions: Sessions; kite: Kite; ownerUserId: string; mockKite: boolean };
+type Runtime = {
+  store: KeyValueStore;
+  sessions: Sessions;
+  kite: Kite;
+  ownerUserId: string;
+  apiKey: string;
+  mockKite: boolean;
+};
 
 const isProduction = process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production";
 
@@ -36,6 +43,7 @@ function build(): Runtime {
     sessions: createSessions({ store, encryptionKey }),
     kite,
     ownerUserId: mockKite ? (process.env.KITE_USER_ID ?? "MOCK01") : required("KITE_USER_ID"),
+    apiKey: mockKite ? "mock" : required("KITE_API_KEY"),
     mockKite,
   };
 }
