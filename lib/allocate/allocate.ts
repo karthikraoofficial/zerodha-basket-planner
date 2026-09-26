@@ -44,12 +44,34 @@ export const DEFERRED_NO_FIT = "couldn't fit at this bucket";
 export type AllocationResult = {
   positions: Position[];
   deferred: Deferred[];
+  /** "N of M names": positions held vs the bucket's depth. */
+  names: { selected: number; depth: number };
   totals: {
     shares: number;
     committedPaise: number;
     unspentPaise: number;
+    meanAbsWeightError: number;
+    worstAbsWeightError: number;
+    /** Upside midpoint weighted by committed amount. */
+    weightedUpsideMidPct: number;
   };
 };
+
+/** Bucket (paise) → how many names it holds at most (spec §6b). */
+export const BUCKET_DEPTHS: ReadonlyMap<number, number> = new Map([
+  [500_000, 4],
+  [1_000_000, 6],
+  [2_000_000, 8],
+  [5_000_000, 10],
+  [10_000_000, 12],
+  [20_000_000, 14],
+]);
+
+export function depthForBucket(bucketPaise: number): number {
+  const depth = BUCKET_DEPTHS.get(bucketPaise);
+  if (depth === undefined) throw new Error(`Not a bucket: ${bucketPaise} paise`);
+  return depth;
+}
 
 const LIMIT_MARKUP_PER_MILLE = 1015;
 
@@ -176,13 +198,20 @@ export function allocate({ passed, bucketPaise, depth }: AllocateInput): Allocat
     weight: weightOf(l.qty, l.limitPaise),
   }));
   const committedPaise = total(legs);
+  const absErrors = positions.map((p) => Math.abs(p.weight - p.targetWeight));
   return {
     positions,
     deferred: r.deferred,
+    names: { selected: positions.length, depth },
     totals: {
       shares: positions.reduce((s, p) => s + p.qty, 0),
       committedPaise,
       unspentPaise: bucketPaise - committedPaise,
+      meanAbsWeightError: absErrors.length ? absErrors.reduce((a, b) => a + b, 0) / absErrors.length : 0,
+      worstAbsWeightError: absErrors.length ? Math.max(...absErrors) : 0,
+      weightedUpsideMidPct: committedPaise
+        ? positions.reduce((s, p) => s + p.amountPaise * p.upsideMidPct, 0) / committedPaise
+        : 0,
     },
   };
 }

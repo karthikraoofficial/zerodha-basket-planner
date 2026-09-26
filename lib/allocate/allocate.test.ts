@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { allocate, buyLimitPaise, type AllocCandidate } from "./allocate";
+import { allocate, buyLimitPaise, depthForBucket, type AllocCandidate } from "./allocate";
 
 const rupees = (r: number) => Math.round(r * 100);
 
@@ -107,5 +107,42 @@ describe("integer solve", () => {
     expect(plan.deferred).toEqual([
       { rank: 1, symbol: "HEAVY", limitPaise: rupees(710.5), reason: "couldn't fit at this bucket" },
     ]);
+  });
+});
+
+describe("plan totals", () => {
+  it("reports weight error and weighted upside for the golden plan", () => {
+    const plan = allocate({ passed: SEP24, bucketPaise: rupees(100_000), depth: 12 });
+    // Worked from the spec's golden table: weight = amount ÷ ₹1,00,000, target = mid ÷ 140.5.
+    expect(plan.totals.meanAbsWeightError).toBeCloseTo(0.0020073, 6);
+    expect(plan.totals.worstAbsWeightError).toBeCloseTo(0.0085881, 6);
+    expect(plan.totals.weightedUpsideMidPct).toBeCloseTo(24.3253, 3);
+  });
+
+  it("reports N of M names and never pads when fewer pass than the depth", () => {
+    const passed = [cand(1, "AAA", 100, 20, 40), cand(2, "BBB", 100, 10, 20)];
+    const plan = allocate({ passed, bucketPaise: rupees(5000), depth: 4 });
+
+    expect(plan.positions.map((p) => p.symbol)).toEqual(["AAA", "BBB"]);
+    expect(plan.names).toEqual({ selected: 2, depth: 4 });
+  });
+
+  it("returns an empty plan when nothing passed", () => {
+    const plan = allocate({ passed: [], bucketPaise: rupees(5000), depth: 4 });
+    expect(plan.positions).toEqual([]);
+    expect(plan.totals).toMatchObject({ shares: 0, committedPaise: 0, unspentPaise: rupees(5000) });
+    expect(plan.names).toEqual({ selected: 0, depth: 4 });
+  });
+});
+
+describe("depthForBucket", () => {
+  it("maps each bucket to its depth", () => {
+    expect([5_000, 10_000, 20_000, 50_000, 100_000, 200_000].map((r) => depthForBucket(rupees(r)))).toEqual([
+      4, 6, 8, 10, 12, 14,
+    ]);
+  });
+
+  it("rejects amounts that are not a bucket", () => {
+    expect(() => depthForBucket(rupees(7_500))).toThrow();
   });
 });
