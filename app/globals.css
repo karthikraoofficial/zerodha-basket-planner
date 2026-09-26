@@ -18,6 +18,13 @@
   --bad: #b3261e;
   --pill-bg: #0e0e0d;
   --pill-fg: #ffffff;
+  /* Chart series: validated with the dataviz palette checks against the beige card (light) and dark card. */
+  --s1: #2b3ad1;
+  --s2: #d9773a;
+  --s3: #1baf7a;
+  --s4: #c9a227;
+  --s-other: #c4bdae;
+  --track: #dcd6ca;
   --shadow: 0 1px 2px rgb(20 18 12 / 0.04), 0 8px 24px rgb(20 18 12 / 0.06);
   --shadow-lift: 0 2px 4px rgb(20 18 12 / 0.06), 0 14px 32px rgb(20 18 12 / 0.1);
   --radius-card: 28px;
@@ -48,6 +55,12 @@
     --bad: #ff8a80;
     --pill-bg: #f2efe9;
     --pill-fg: #121210;
+    --s1: #6571f5;
+    --s2: #d06f33;
+    --s3: #1baf7a;
+    --s4: #b08c1c;
+    --s-other: #57524a;
+    --track: #35322c;
     --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.25);
     --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.35), 0 14px 32px rgb(0 0 0 / 0.35);
     color-scheme: dark;
@@ -307,6 +320,102 @@ textarea:focus { outline: none; box-shadow: inset 0 0 0 2px var(--blue); }
 .upload { display: grid; gap: 12px; }
 .field-label { font-weight: 700; }
 
+/* ---------- Plan dashboard ---------- */
+.dash { display: grid; gap: 20px; }
+.dash-row { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 20px; }
+.card-plain { background: var(--bg); box-shadow: inset 0 0 0 1px var(--line); }
+.card-plain .sticky, .card-plain tbody tr:hover, .card-plain tbody tr:hover .sticky { background: var(--bg); }
+.card-plain tbody tr:hover, .card-plain tbody tr:hover .sticky { background: color-mix(in srgb, var(--ink) 3%, var(--bg)); }
+.card .note { margin-bottom: 18px; }
+.card .cash { margin: 14px 0 26px; }
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.toolbar .actions { flex: 1 1 auto; }
+.intro { margin-bottom: 24px; max-width: 60rem; }
+.symbol { display: flex; align-items: flex-start; gap: 10px; }
+.mono {
+  flex: none; display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+  font-size: 0.78rem; font-weight: 700; color: #fff; background: var(--s-other);
+}
+.mono.tone-other { color: var(--fg); }
+.mono.tone-ink { background: var(--pill-bg); color: var(--pill-fg); }
+
+/* Chart tones */
+.tone-s1 { background: var(--s1); }
+.tone-s2 { background: var(--s2); }
+.tone-s3 { background: var(--s3); }
+.tone-s4 { background: var(--s4); }
+.tone-other { background: var(--s-other); }
+.tone-muted { background: var(--slate); }
+
+.chart { margin: 0; }
+/* Stacked bar: 2px surface gaps between segments, rounded outer ends. */
+.stack { display: flex; gap: 2px; height: 52px; margin-bottom: 26px; }
+.seg {
+  flex-basis: 0; min-width: 4px; position: relative;
+  transform-origin: left; animation: grow-x var(--dur-slow) var(--ease) both;
+  animation-delay: calc(150ms + var(--i, 0) * 90ms);
+  box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--s1) 55%, transparent);
+}
+.seg:first-child { border-radius: 10px 0 0 10px; }
+.seg:last-child { border-radius: 0 10px 10px 0; }
+.seg:only-child { border-radius: 10px; }
+.legend { font-size: 0.88rem; }
+.legend th { padding: 0 0 8px; }
+.legend td { padding: 9px 0; border-bottom-color: color-mix(in srgb, var(--ink) 8%, transparent); white-space: normal; }
+.legend th.num, .legend td.num { padding-left: 16px; }
+.legend tbody tr:hover { background: transparent; }
+.swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 10px; vertical-align: 0; }
+
+/* Bucket bar with a cash marker. */
+.track { position: relative; height: 52px; border-radius: 10px; background: var(--track); margin-top: 44px; }
+.fill {
+  position: absolute; inset: 0 auto 0 0; border-radius: 10px 4px 4px 10px;
+  transform-origin: left; animation: grow-x var(--dur-slow) var(--ease) 150ms both;
+}
+.marker {
+  position: absolute; top: -8px; bottom: -8px; width: 3px; margin-left: -1.5px; border-radius: 2px;
+  background: var(--ink); animation: fade-in var(--dur) var(--ease) calc(var(--dur-slow) + 100ms) both;
+}
+.marker-short { background: var(--warn); }
+.marker-label {
+  position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%);
+  font-size: 0.72rem; font-weight: 600; white-space: nowrap; color: var(--fg);
+}
+.marker-short .marker-label { color: var(--warn); }
+.marker-end .marker-label { left: auto; right: 0; transform: none; }
+.marker-start .marker-label { left: 0; transform: none; }
+.scale { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-top: 10px; }
+
+/* Funnel: vertical bars scaled to all candidates. */
+.funnel { display: flex; flex-wrap: wrap; gap: 18px 34px; margin: 6px 0 28px; }
+.funnel-item { display: flex; align-items: flex-end; gap: 14px; }
+.vtrack { position: relative; width: 26px; height: 128px; border-radius: 13px; background: var(--track); overflow: hidden; }
+.vfill {
+  position: absolute; left: 0; right: 0; bottom: 0; border-radius: 13px;
+  transform-origin: bottom; animation: grow-y var(--dur-slow) var(--ease) both;
+  animation-delay: calc(200ms + var(--i, 0) * 90ms);
+}
+.figure { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+
+/* Hover / focus tooltips on chart marks. */
+[data-tip] { cursor: default; outline-offset: 3px; }
+[data-tip]::after {
+  content: attr(data-tip); position: absolute; bottom: calc(100% + 10px); left: 50%; z-index: 5;
+  transform: translate(-50%, 4px); opacity: 0; pointer-events: none;
+  padding: 7px 11px; border-radius: 9px; white-space: nowrap;
+  background: var(--pill-bg); color: var(--pill-fg); font-size: 0.75rem; font-weight: 500;
+  transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+[data-tip]:hover::after, [data-tip]:focus-visible::after { opacity: 1; transform: translate(-50%, 0); }
+.seg:first-child[data-tip]::after { left: 0; transform: translate(0, 4px); }
+.seg:first-child[data-tip]:hover::after, .seg:first-child[data-tip]:focus-visible::after { transform: none; }
+.seg:last-child:not(:first-child)[data-tip]::after { left: auto; right: 0; transform: translate(0, 4px); }
+.seg:last-child:not(:first-child)[data-tip]:hover::after, .seg:last-child:not(:first-child)[data-tip]:focus-visible::after { transform: none; }
+.marker[data-tip]::after { bottom: calc(100% + 26px); }
+.marker-end[data-tip]::after { left: auto; right: 0; transform: translate(0, 4px); }
+.marker-end[data-tip]:hover::after, .marker-end[data-tip]:focus-visible::after { transform: none; }
+@media (max-width: 1100px) { .dash-row { grid-template-columns: minmax(0, 1fr); } }
+
 /* ---------- Phone ---------- */
 @media (max-width: 860px) {
   .shell { display: block; padding: 0 16px 7rem; }
@@ -330,7 +439,15 @@ textarea:focus { outline: none; box-shadow: inset 0 0 0 2px var(--blue); }
   h1 { font-size: 1.75rem; }
   h2, legend { font-size: 1.3rem; }
   .card { padding: 22px; border-radius: 22px; }
-  .statusbar { margin-bottom: 20px; }
+  .statusbar { margin-bottom: 20px; gap: 6px; }
+  .chip { font-size: 0.74rem; padding: 6px 11px; }
+  .totals { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .totals dd { font-size: 1.15rem; }
+  .funnel { gap: 16px 20px; }
+  .funnel-item { gap: 10px; }
+  .vtrack { height: 92px; width: 22px; }
+  .figure { font-size: 1.3rem; }
+  .stack, .track { height: 44px; }
 }
 @media (max-width: 480px) {
   .disclaimer { font-size: 0.7rem; }

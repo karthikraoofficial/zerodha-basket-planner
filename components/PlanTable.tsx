@@ -1,9 +1,13 @@
 import type { Plan } from "@/lib/plan/build";
 import { formatPrice, formatRupees } from "@/lib/money";
+import { allocation } from "@/lib/plan/chart";
+import { SymbolCell } from "./SymbolCell";
 
 const pct = (x: number, dp = 1) => `${(x * 100).toFixed(dp)}%`;
 
 export function PlanTable({ plan }: { plan: Plan }) {
+  // A name keeps its allocation-bar colour here, so the table and the chart read together.
+  const tones = new Map(allocation(plan).named.map((s, i) => [s.symbol, `s${i + 1}`]));
   return (
     <div className="table-wrap">
       <table className="plan">
@@ -26,8 +30,7 @@ export function PlanTable({ plan }: { plan: Plan }) {
             <tr key={p.symbol}>
               <td className="num">{p.rank}</td>
               <td className="sticky">
-                <strong>{p.symbol}</strong>
-                <div className="sub">{p.name}</div>
+                <SymbolCell symbol={p.symbol} name={p.name} tone={tones.get(p.symbol) ?? "other"} />
               </td>
               <td className="num">{p.qty}</td>
               <td className="num">{formatPrice(p.limitPaise)}</td>

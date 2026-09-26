@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ChecksTable } from "@/components/ChecksTable";
 import { PlanActions } from "@/components/PlanActions";
-import { PlanTable, PlanTotals } from "@/components/PlanTable";
+import { PlanDashboard } from "@/components/PlanDashboard";
 import { StatusBar } from "@/components/StatusBar";
 import { formatDate, formatTimeIST } from "@/lib/dates";
 import { HORIZON_LABELS } from "@/lib/data/list";
-import { formatBucket, formatRupees } from "@/lib/money";
+import { formatBucket } from "@/lib/money";
 import { buildPlan, type BlockReason } from "@/lib/plan/build";
 import { saveDraft } from "@/lib/plan/history";
 import { currentData } from "@/lib/server/data";
@@ -49,7 +48,7 @@ export default async function PlanPage() {
       <h1>
         {formatBucket(session.bucketPaise)} · {HORIZON_LABELS[session.horizon]}
       </h1>
-      <p className="sub">
+      <p className="links">
         <Link href="/setup">Change bucket or horizon</Link> · <Link href="/history">My past plans</Link>
       </p>
 
@@ -74,37 +73,26 @@ export default async function PlanPage() {
           )}
         </div>
       ) : (
-        <>
-          <p className="note">
-            Buy limit = last close × 1.015, rounded down to a valid NSE tick. Closes are as of{" "}
-            {formatDate(result.plan.pricesAsOf)}
-            {result.plan.pricesStale && <strong className="warn"> (stale: a newer session has closed)</strong>}.
-          </p>
-          <p className={result.plan.cash.shortByPaise > 0 ? "cash cash-short" : "cash"}>
-            Available cash {formatRupees(result.plan.cash.availablePaise)}
-            {result.plan.cash.shortByPaise > 0
-              ? ` · short by ${formatRupees(result.plan.cash.shortByPaise)} for this plan`
-              : " · covers this plan"}
-          </p>
-          <PlanActions plan={result.plan} />
-          <form action={savePlan}>
-            <button className="button" type="submit" disabled={!result.plan.positions.length}>
-              Save plan
-            </button>
-          </form>
-          <PlanTotals plan={result.plan} />
-          {result.plan.positions.length ? (
-            <PlanTable plan={result.plan} />
-          ) : (
-            <p className="alert">No candidate passed the checks for this bucket. The plan is empty.</p>
-          )}
-          <h2>Checks for every candidate</h2>
-          <p className="note">
-            Excluded: below a falling 20DMA or 50DMA, more than 15% above the 50DMA, or median traded value under
-            ₹2 Cr/day over the last 50 sessions. Arrows show each MA&apos;s direction over 10 sessions.
-          </p>
-          <ChecksTable rows={result.plan.checks} inPlan={new Set(result.plan.positions.map((p) => p.symbol))} />
-        </>
+        <PlanDashboard
+          plan={result.plan}
+          toolbar={
+            <div className="toolbar">
+              <PlanActions plan={result.plan} />
+              <form action={savePlan}>
+                <button className="button" type="submit" disabled={!result.plan.positions.length}>
+                  Save plan
+                </button>
+              </form>
+            </div>
+          }
+          note={
+            <p className="note">
+              Buy limit = last close × 1.015, rounded down to a valid NSE tick. Closes are as of{" "}
+              {formatDate(result.plan.pricesAsOf)}
+              {result.plan.pricesStale && <strong className="warn"> (stale: a newer session has closed)</strong>}.
+            </p>
+          }
+        />
       )}
     </>
   );
