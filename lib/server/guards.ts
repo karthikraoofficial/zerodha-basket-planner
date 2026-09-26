@@ -6,6 +6,7 @@ import { requiredRedirect, type SessionState } from "../session/sessions";
 import { runtime } from "./runtime";
 
 export const SESSION_COOKIE = "sid";
+export const LOGIN_STATE_COOKIE = "login_state";
 
 export async function currentSession(): Promise<{ sid: string; session: SessionState } | null> {
   const sid = (await cookies()).get(SESSION_COOKIE)?.value;
