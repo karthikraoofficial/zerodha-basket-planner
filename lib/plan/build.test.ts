@@ -111,6 +111,26 @@ describe("buildPlan (integration)", () => {
     expect(result.plan.totals.shares).toBe(259);
   });
 
+  it("marks names deferred by the 1.5× test in the checks and backfills them (₹5,000)", async () => {
+    // Depth 4: KMEW's target is 26.5/104 × ₹5,000 ≈ ₹1,274 but one share is ₹3,000.40 → deferred; GPPL backfills.
+    const { kite, sessions, sid } = await loggedIn();
+    const session = (await sessions.load(sid, FRI_NOON))!;
+    const result = await buildPlan({
+      account: kite.account(session.accessToken),
+      ...data(),
+      bucketPaise: rupees(5_000),
+      horizon: "6-12m",
+      now: FRI_NOON,
+    });
+    if (result.status !== "ok") throw new Error(result.status);
+    expect(result.plan.positions.map((p) => p.symbol)).toEqual(["ELLEN", "MARKSANS", "PRECWIRE", "GPPL"]);
+    expect(result.plan.checks.find((r) => r.symbol === "KMEW")).toMatchObject({
+      status: "deferred",
+      reason: "one share costs more than 1.5× its allocation at this bucket",
+    });
+    expect(result.plan.totals.committedPaise).toBeLessThanOrEqual(rupees(5_000));
+  });
+
   it("refuses to build from a stale list", async () => {
     const { kite, sessions, sid } = await loggedIn();
     const session = (await sessions.load(sid, FRI_NOON))!;
