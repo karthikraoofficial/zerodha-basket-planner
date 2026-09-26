@@ -51,3 +51,35 @@ describe("buyLimitPaise", () => {
     expect(buyLimitPaise(rupees(990))).toBe(rupees(1004.8));
   });
 });
+
+const cand = (rank: number, symbol: string, close: number, low: number, high: number): AllocCandidate => ({
+  rank,
+  symbol,
+  closePaise: rupees(close),
+  upsideLowPct: low,
+  upsideHighPct: high,
+});
+
+describe("feasibility (one share at limit ≤ 1.5 × target allocation)", () => {
+  it("defers an unaffordable name with a reason and backfills from deeper in the ranking", () => {
+    // ₹5,000 bucket, depth 4. EXPN's target is 10/100 × 5,000 = ₹500, but one share is ₹2,030.
+    const passed = [
+      cand(1, "AAA", 100, 20, 40),
+      cand(2, "EXPN", 2000, 10, 10),
+      cand(3, "CCC", 100, 20, 40),
+      cand(4, "DDD", 100, 20, 40),
+      cand(5, "EEE", 100, 20, 40),
+    ];
+    const plan = allocate({ passed, bucketPaise: rupees(5000), depth: 4 });
+
+    expect(plan.positions.map((p) => p.symbol)).toEqual(["AAA", "CCC", "DDD", "EEE"]);
+    expect(plan.deferred).toEqual([
+      {
+        rank: 2,
+        symbol: "EXPN",
+        limitPaise: rupees(2030),
+        reason: "one share costs more than 1.5× its allocation at this bucket",
+      },
+    ]);
+  });
+});

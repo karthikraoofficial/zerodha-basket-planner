@@ -31,9 +31,18 @@ export type Position = {
   weight: number;
 };
 
+export type Deferred = {
+  rank: number;
+  symbol: string;
+  limitPaise: number;
+  reason: string;
+};
+
+export const DEFERRED_UNAFFORDABLE = "one share costs more than 1.5× its allocation at this bucket";
+
 export type AllocationResult = {
   positions: Position[];
-  deferred: never[];
+  deferred: Deferred[];
   totals: {
     shares: number;
     committedPaise: number;
@@ -51,17 +60,59 @@ export function buyLimitPaise(closePaise: number): number {
   return Math.floor(scaled / (1000 * tick)) * tick;
 }
 
-export function allocate({ passed, bucketPaise, depth }: AllocateInput): AllocationResult {
-  const selected = passed.slice(0, depth);
-  const mids = selected.map((c) => (c.upsideLowPct + c.upsideHighPct) / 2);
-  const midSum = mids.reduce((a, b) => a + b, 0);
+const FEASIBILITY_MULTIPLE = 1.5;
 
-  const legs = selected.map((c, i) => {
-    const limitPaise = buyLimitPaise(c.closePaise);
-    const targetWeight = mids[i]! / midSum;
-    const qty = Math.max(1, Math.floor((targetWeight * bucketPaise) / limitPaise));
-    return { c, limitPaise, targetWeight, upsideMidPct: mids[i]!, qty };
-  });
+type Leg = { c: AllocCandidate; limitPaise: number; upsideMidPct: number; targetWeight: number };
+
+const upsideMid = (c: AllocCandidate) => (c.upsideLowPct + c.upsideHighPct) / 2;
+
+/** Target weights for a selected set: each name's upside midpoint ÷ the set's sum. */
+function withTargets(selected: AllocCandidate[]): Leg[] {
+  const midSum = selected.reduce((sum, c) => sum + upsideMid(c), 0);
+  return selected.map((c) => ({
+    c,
+    limitPaise: buyLimitPaise(c.closePaise),
+    upsideMidPct: upsideMid(c),
+    targetWeight: midSum > 0 ? upsideMid(c) / midSum : 0,
+  }));
+}
+
+/**
+ * Fixed point: take the top `depth` names not yet rejected; if any fails the 1.5× test,
+ * reject the single worst (highest one-share cost ÷ target), recompute targets and repeat.
+ * Rejected names are never re-offered, so the loop always terminates.
+ */
+function selectFeasible(passed: AllocCandidate[], bucketPaise: number, depth: number) {
+  const rejected = new Set<string>();
+  const deferred: Deferred[] = [];
+  for (;;) {
+    const legs = withTargets(passed.filter((c) => !rejected.has(c.symbol)).slice(0, depth));
+    let worst: Leg | undefined;
+    let worstRatio = FEASIBILITY_MULTIPLE;
+    for (const leg of legs) {
+      const ratio = leg.limitPaise / (leg.targetWeight * bucketPaise);
+      if (ratio > worstRatio) {
+        worst = leg;
+        worstRatio = ratio;
+      }
+    }
+    if (!worst) return { legs, deferred };
+    rejected.add(worst.c.symbol);
+    deferred.push({
+      rank: worst.c.rank,
+      symbol: worst.c.symbol,
+      limitPaise: worst.limitPaise,
+      reason: DEFERRED_UNAFFORDABLE,
+    });
+  }
+}
+
+export function allocate({ passed, bucketPaise, depth }: AllocateInput): AllocationResult {
+  const selection = selectFeasible(passed, bucketPaise, depth);
+  const legs = selection.legs.map((leg) => ({
+    ...leg,
+    qty: Math.max(1, Math.floor((leg.targetWeight * bucketPaise) / leg.limitPaise)),
+  }));
 
   const total = () => legs.reduce((sum, l) => sum + l.qty * l.limitPaise, 0);
   const weightOf = (qty: number, limitPaise: number) => (qty * limitPaise) / bucketPaise;
@@ -100,7 +151,7 @@ export function allocate({ passed, bucketPaise, depth }: AllocateInput): Allocat
   const committedPaise = total();
   return {
     positions,
-    deferred: [],
+    deferred: selection.deferred,
     totals: {
       shares: positions.reduce((s, p) => s + p.qty, 0),
       committedPaise,
