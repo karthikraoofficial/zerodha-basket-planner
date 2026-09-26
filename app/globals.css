@@ -108,3 +108,7 @@ td.reason { white-space: normal; min-width: 11rem; }
   body { padding-bottom: 6.5rem; }
 }
 .sticky { white-space: normal; min-width: 6.5rem; max-width: 8.5rem; box-shadow: 1px 0 0 var(--line); }
+.history { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
+.history a { display: grid; gap: 0.2rem; padding: 0.75rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--fg); text-decoration: none; }
+.history a:hover { border-color: var(--accent); }
+form + .table-wrap, .actions + form { margin-bottom: 0.75rem; }
