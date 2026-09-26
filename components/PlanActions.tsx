@@ -51,7 +51,11 @@ export function PlanActions({ plan }: { plan: Plan }) {
         {stale && " · stale, refresh before acting"}
       </span>
       <div className="action-buttons">
-        <button className="button button-quiet" onClick={() => startRefresh(() => router.refresh())} disabled={refreshing}>
+        <button
+          className={refreshing ? "button button-quiet is-busy" : "button button-quiet"}
+          onClick={() => startRefresh(() => router.refresh())}
+          disabled={refreshing}
+        >
           {refreshing ? "Refreshing…" : "Refresh"}
         </button>
         <button className="button button-quiet" onClick={copy} disabled={!plan.positions.length}>

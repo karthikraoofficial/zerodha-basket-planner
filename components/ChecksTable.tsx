@@ -1,4 +1,5 @@
 import type { PlanCheckRow } from "@/lib/plan/build";
+import { SymbolCell } from "./SymbolCell";
 
 const STATUS_LABEL: Record<PlanCheckRow["status"], string> = {
   pass: "Pass",
@@ -39,8 +40,7 @@ export function ChecksTable({ rows, inPlan }: { rows: PlanCheckRow[]; inPlan: Se
               <tr key={r.symbol}>
                 <td className="num">{r.rank}</td>
                 <td className="sticky">
-                  <strong>{r.symbol}</strong>
-                  <div className="sub">{r.name}</div>
+                  <SymbolCell symbol={r.symbol} name={r.name} tone={inPlan.has(r.symbol) ? "ink" : "other"} />
                 </td>
                 <td>
                   <span className={`badge badge-${r.status}`}>{STATUS_LABEL[r.status]}</span>

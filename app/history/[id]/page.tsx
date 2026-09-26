@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChecksTable } from "@/components/ChecksTable";
-import { PlanTable, PlanTotals } from "@/components/PlanTable";
+import { PlanDashboard } from "@/components/PlanDashboard";
 import { istDate } from "@/lib/data/calendar";
 import { formatDate, formatTimeIST } from "@/lib/dates";
 import { HORIZON_LABELS } from "@/lib/data/list";
@@ -27,15 +26,12 @@ export default async function SavedPlanPage({ params }: { params: Promise<{ id: 
       <h1>
         {formatBucket(plan.bucketPaise)} · {HORIZON_LABELS[plan.horizon]}
       </h1>
-      <p className="note">
+      <p className="note intro">
         Snapshot saved {savedAt} IST · list {formatDate(plan.screenDate)} · closes as of {formatDate(plan.pricesAsOf)} ·
         cash then {formatRupees(plan.cash.availablePaise)}. Prices have moved since; this is a record, not a current
         plan.
       </p>
-      <PlanTotals plan={plan} />
-      <PlanTable plan={plan} />
-      <h2>Checks at the time</h2>
-      <ChecksTable rows={plan.checks} inPlan={new Set(plan.positions.map((p) => p.symbol))} />
+      <PlanDashboard plan={plan} checksTitle="Checks at the time" />
     </>
   );
 }
