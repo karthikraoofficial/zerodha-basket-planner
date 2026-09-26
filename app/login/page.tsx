@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { CSSProperties } from "react";
 import { redirect } from "next/navigation";
 import { StatusBar } from "@/components/StatusBar";
@@ -44,6 +45,9 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
             <li>Pick a bucket and a horizon</li>
             <li>Read the plan, place orders yourself</li>
           </ol>
+          <Link href="/how-it-works" className="hero-link">
+            See how it works <span aria-hidden>→</span>
+          </Link>
         </section>
       </div>
     </>

@@ -44,8 +44,9 @@ export function Sidebar({ reached, loggedIn }: { reached: StepId; loggedIn: bool
         <p className="nav-label">Plan a basket</p>
         <ol className="nav-list" aria-label="Progress">
           {STEPS.map((step) => {
+            // Done means behind you: before this page's step or, off the flow, before the furthest reachable step.
             const state =
-              step.id === current ? "current" : step.id > furthest ? "locked" : current && step.id > current ? "open" : "done";
+              step.id === current ? "current" : step.id > furthest ? "locked" : step.id < (current ?? furthest) ? "done" : "open";
             // Login is never a useful link once you're logged in.
             const linked = state !== "current" && state !== "locked" && !(step.id === 1 && loggedIn);
             const inner = (
@@ -97,6 +98,19 @@ export function Sidebar({ reached, loggedIn }: { reached: StepId; loggedIn: bool
             </ul>
           </>
         )}
+
+        <p className="nav-label">Guide</p>
+        <ul className="nav-list">
+          <li>
+            <Link
+              href="/how-it-works"
+              className={path === "/how-it-works" ? "nav-item nav-current" : "nav-item"}
+              aria-current={path === "/how-it-works" ? "page" : undefined}
+            >
+              <span>How this site works</span>
+            </Link>
+          </li>
+        </ul>
       </nav>
 
       <div className="sidebar-foot">
