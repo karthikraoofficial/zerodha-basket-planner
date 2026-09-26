@@ -39,6 +39,7 @@ export type Deferred = {
 };
 
 export const DEFERRED_UNAFFORDABLE = "one share costs more than 1.5× its allocation at this bucket";
+export const DEFERRED_NO_FIT = "couldn't fit at this bucket";
 
 export type AllocationResult = {
   positions: Position[];
@@ -77,16 +78,23 @@ function withTargets(selected: AllocCandidate[]): Leg[] {
   }));
 }
 
+type Sized = Leg & { qty: number };
+
+type Rejections = { rejected: Set<string>; deferred: Deferred[] };
+
+function reject(r: Rejections, leg: Leg, reason: string) {
+  r.rejected.add(leg.c.symbol);
+  r.deferred.push({ rank: leg.c.rank, symbol: leg.c.symbol, limitPaise: leg.limitPaise, reason });
+}
+
 /**
  * Fixed point: take the top `depth` names not yet rejected; if any fails the 1.5× test,
  * reject the single worst (highest one-share cost ÷ target), recompute targets and repeat.
  * Rejected names are never re-offered, so the loop always terminates.
  */
-function selectFeasible(passed: AllocCandidate[], bucketPaise: number, depth: number) {
-  const rejected = new Set<string>();
-  const deferred: Deferred[] = [];
+function selectFeasible(passed: AllocCandidate[], bucketPaise: number, depth: number, r: Rejections): Leg[] {
   for (;;) {
-    const legs = withTargets(passed.filter((c) => !rejected.has(c.symbol)).slice(0, depth));
+    const legs = withTargets(passed.filter((c) => !r.rejected.has(c.symbol)).slice(0, depth));
     let worst: Leg | undefined;
     let worstRatio = FEASIBILITY_MULTIPLE;
     for (const leg of legs) {
@@ -96,31 +104,50 @@ function selectFeasible(passed: AllocCandidate[], bucketPaise: number, depth: nu
         worstRatio = ratio;
       }
     }
-    if (!worst) return { legs, deferred };
-    rejected.add(worst.c.symbol);
-    deferred.push({
-      rank: worst.c.rank,
-      symbol: worst.c.symbol,
-      limitPaise: worst.limitPaise,
-      reason: DEFERRED_UNAFFORDABLE,
-    });
+    if (!worst) return legs;
+    reject(r, worst, DEFERRED_UNAFFORDABLE);
   }
 }
 
 export function allocate({ passed, bucketPaise, depth }: AllocateInput): AllocationResult {
-  const selection = selectFeasible(passed, bucketPaise, depth);
-  const legs = selection.legs.map((leg) => ({
-    ...leg,
-    qty: Math.max(1, Math.floor((leg.targetWeight * bucketPaise) / leg.limitPaise)),
-  }));
-
-  const total = () => legs.reduce((sum, l) => sum + l.qty * l.limitPaise, 0);
+  const r: Rejections = { rejected: new Set(), deferred: [] };
   const weightOf = (qty: number, limitPaise: number) => (qty * limitPaise) / bucketPaise;
+  const total = (legs: Sized[]) => legs.reduce((sum, l) => sum + l.qty * l.limitPaise, 0);
+
+  let legs: Sized[];
+  solve: for (;;) {
+    legs = selectFeasible(passed, bucketPaise, depth, r).map((leg) => ({
+      ...leg,
+      qty: Math.max(1, Math.floor((leg.targetWeight * bucketPaise) / leg.limitPaise)),
+    }));
+
+    // Shave: while over the bucket, take a share from the leg furthest above its target
+    // (ties → better rank). Seeds are floored, so only 1-share seeds can be overweight:
+    // shaving one to zero defers the name and re-runs selection with fresh targets.
+    while (total(legs) > bucketPaise) {
+      let worst: Sized | undefined;
+      let worstExcess = -Infinity;
+      for (const leg of legs) {
+        const excess = weightOf(leg.qty, leg.limitPaise) - leg.targetWeight;
+        if (excess > worstExcess) {
+          worst = leg;
+          worstExcess = excess;
+        }
+      }
+      if (!worst) break;
+      if (worst.qty === 1) {
+        reject(r, worst, DEFERRED_NO_FIT);
+        continue solve;
+      }
+      worst.qty -= 1;
+    }
+    break;
+  }
 
   // Greedy add: one share to the most-underweight leg, while it fits and reduces its error.
   for (;;) {
-    const room = bucketPaise - total();
-    let best: (typeof legs)[number] | undefined;
+    const room = bucketPaise - total(legs);
+    let best: Sized | undefined;
     let bestGap = -Infinity;
     for (const leg of legs) {
       if (leg.limitPaise > room) continue;
@@ -148,10 +175,10 @@ export function allocate({ passed, bucketPaise, depth }: AllocateInput): Allocat
     targetWeight: l.targetWeight,
     weight: weightOf(l.qty, l.limitPaise),
   }));
-  const committedPaise = total();
+  const committedPaise = total(legs);
   return {
     positions,
-    deferred: selection.deferred,
+    deferred: r.deferred,
     totals: {
       shares: positions.reduce((s, p) => s + p.qty, 0),
       committedPaise,

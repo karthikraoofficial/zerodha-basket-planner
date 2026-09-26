@@ -93,3 +93,19 @@ describe("feasibility (one share at limit ≤ 1.5 × target allocation)", () => 
     expect(plan.deferred.map((d) => d.symbol)).toEqual(["BIGX", "BIGZ"]);
   });
 });
+
+describe("integer solve", () => {
+  it("shaves an over-bucket seed by deferring the most-overweight name and re-targets the rest", () => {
+    // ₹1,000, depth 2, equal midpoints → targets ₹500 each. HEAVY passes 1.5× (₹710.50 ≤ ₹750)
+    // but seeds at 1 share; with LITE's 4 × ₹101.50 the seed is ₹1,116.50 > bucket.
+    // HEAVY is furthest above target, so it is shaved out; LITE is re-targeted to 100%.
+    const passed = [cand(1, "HEAVY", 700, 20, 40), cand(2, "LITE", 100, 20, 40)];
+    const plan = allocate({ passed, bucketPaise: rupees(1000), depth: 2 });
+
+    expect(plan.positions.map((p) => [p.symbol, p.qty])).toEqual([["LITE", 9]]);
+    expect(plan.totals.committedPaise).toBe(rupees(913.5));
+    expect(plan.deferred).toEqual([
+      { rank: 1, symbol: "HEAVY", limitPaise: rupees(710.5), reason: "couldn't fit at this bucket" },
+    ]);
+  });
+});
