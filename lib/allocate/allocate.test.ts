@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { allocate, type AllocCandidate } from "./allocate";
+import { allocate, buyLimitPaise, type AllocCandidate } from "./allocate";
 
 const rupees = (r: number) => Math.round(r * 100);
 
@@ -29,5 +29,25 @@ describe("allocate", () => {
     expect(plan.totals.committedPaise).toBe(rupees(99_016.75));
     expect(plan.totals.unspentPaise).toBe(rupees(983.25));
     expect(plan.deferred).toEqual([]);
+  });
+});
+
+describe("buyLimitPaise", () => {
+  it("rounds close × 1.015 down to max(₹0.05, NSE band tick)", () => {
+    // Below ₹250 the NSE tick is ₹0.01, but ₹0.05 is the floor (ADR 0003): 166.125 → 166.10
+    expect(buyLimitPaise(rupees(163.67))).toBe(rupees(166.1));
+    // ₹1,000–5,000 band: ₹0.10 tick. 1253.0885 → 1253.00
+    expect(buyLimitPaise(rupees(1234.57))).toBe(rupees(1253.0));
+    // ₹5,000–10,000 band: ₹0.50 tick. 6090.335 → 6090.00
+    expect(buyLimitPaise(rupees(6000.33))).toBe(rupees(6090.0));
+    // ₹10,000–20,000 band: ₹1 tick. 12530.175 → 12530
+    expect(buyLimitPaise(rupees(12_345))).toBe(rupees(12_530));
+    // ₹20,000+ band: ₹5 tick. 25375.558 → 25375
+    expect(buyLimitPaise(rupees(25_000.55))).toBe(rupees(25_375));
+  });
+
+  it("uses the higher band when the markup crosses a band edge", () => {
+    // close 990 is in the ₹0.05 band but the limit 1004.85 is in the ₹0.10 band → 1004.80
+    expect(buyLimitPaise(rupees(990))).toBe(rupees(1004.8));
   });
 });

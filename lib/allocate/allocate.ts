@@ -2,6 +2,8 @@
 // Weight is measured against the bucket (qty × limit ÷ bucket), which is what reproduces the
 // hand-run golden plan. See CONTEXT.md for vocabulary.
 
+import { bandTickPaise, MIN_TICK_PAISE } from "./tick";
+
 export type AllocCandidate = {
   rank: number;
   symbol: string;
@@ -41,9 +43,12 @@ export type AllocationResult = {
 
 const LIMIT_MARKUP_PER_MILLE = 1015;
 
+/** close × 1.015, rounded down to max(₹0.05, NSE band tick). */
 export function buyLimitPaise(closePaise: number): number {
-  const tick = 5;
-  return Math.floor((closePaise * LIMIT_MARKUP_PER_MILLE) / (1000 * tick)) * tick;
+  const scaled = closePaise * LIMIT_MARKUP_PER_MILLE; // exact integer, paise × 1000
+  const tick = Math.max(MIN_TICK_PAISE, bandTickPaise(closePaise), bandTickPaise(scaled / 1000));
+  // A single correctly-rounded division of exact integers: floors cleanly on exact multiples.
+  return Math.floor(scaled / (1000 * tick)) * tick;
 }
 
 export function allocate({ passed, bucketPaise, depth }: AllocateInput): AllocationResult {
