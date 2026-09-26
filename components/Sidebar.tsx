@@ -108,14 +108,6 @@ export function Sidebar({ reached, loggedIn }: { reached: StepId; loggedIn: bool
             Never places orders.
           </p>
         </div>
-        {loggedIn && (
-          <form action="/api/kite/logout" method="post">
-            <button type="submit" className="nav-logout">
-              <span>Log out of Kite</span>
-              <span aria-hidden>↗</span>
-            </button>
-          </form>
-        )}
       </div>
     </aside>
   );
