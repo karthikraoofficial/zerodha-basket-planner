@@ -57,3 +57,15 @@ describe("no order code", () => {
     expect(Object.keys(deps)).not.toContain("kiteconnect");
   });
 });
+
+describe("Kite allow-list", () => {
+  it("contains no order, GTT or basket endpoints", async () => {
+    const { ALLOWED_KITE_CALLS } = await import("../lib/kite/endpoints");
+    const risky = ALLOWED_KITE_CALLS.filter(({ path }) => /order|gtt|basket|alert|mf\//i.test(path));
+    expect(risky).toEqual([]);
+    expect(ALLOWED_KITE_CALLS.filter(({ method }) => method !== "GET").map((c) => c.path)).toEqual([
+      "/session/token",
+      "/session/token",
+    ]);
+  });
+});
