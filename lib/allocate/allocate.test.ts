@@ -82,4 +82,14 @@ describe("feasibility (one share at limit ≤ 1.5 × target allocation)", () => 
       },
     ]);
   });
+
+  it("never re-offers a deferred name, so swaps cannot loop", () => {
+    // Depth 2. {BIGX, YYY}: BIGX fails → {YYY, BIGZ}: BIGZ fails. Re-offering BIGX here would
+    // swap forever; instead YYY stands alone with both big names deferred.
+    const passed = [cand(1, "BIGX", 9000, 10, 10), cand(2, "YYY", 100, 30, 50), cand(3, "BIGZ", 9000, 10, 10)];
+    const plan = allocate({ passed, bucketPaise: rupees(10_000), depth: 2 });
+
+    expect(plan.positions.map((p) => p.symbol)).toEqual(["YYY"]);
+    expect(plan.deferred.map((d) => d.symbol)).toEqual(["BIGX", "BIGZ"]);
+  });
 });
