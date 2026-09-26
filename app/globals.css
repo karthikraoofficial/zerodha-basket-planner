@@ -71,3 +71,19 @@ legend { font-weight: 600; margin-bottom: 0.5rem; }
 .choice-off { opacity: 0.45; cursor: not-allowed; }
 .logout { margin-top: 1.5rem; }
 .link { background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; cursor: pointer; font: inherit; }
+.sub { font-size: 0.8rem; color: var(--muted); font-weight: 400; }
+.note { font-size: 0.85rem; color: var(--muted); }
+.warn { color: var(--warn); }
+a { color: var(--accent); }
+.totals { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.5rem; margin: 1rem 0; }
+.totals div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.6rem 0.75rem; }
+.totals dt { font-size: 0.75rem; color: var(--muted); }
+.totals dd { margin: 0.15rem 0 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); margin: 0 0 1.25rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
+th, td { padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; white-space: nowrap; }
+th { font-size: 0.75rem; color: var(--muted); font-weight: 600; background: var(--surface); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.rationale { white-space: normal; min-width: 16rem; }
+.sticky { position: sticky; left: 0; background: var(--surface); z-index: 1; }
+tfoot td { font-weight: 600; border-bottom: 0; }

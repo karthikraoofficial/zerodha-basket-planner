@@ -16,7 +16,7 @@ export type SessionState = {
 
 type Stored = { kiteUserId: string; tokenCipher: string; expiresAt: string; bucketPaise?: number; horizon?: Horizon };
 
-export class InvalidSetupError extends Error {}
+export type SetupResult = { ok: true } | { ok: false; reason: "bucket" | "horizon" | "session" };
 
 const IST_OFFSET_MS = (5 * 60 + 30) * 60 * 1000;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -87,12 +87,14 @@ export function createSessions({ store, encryptionKey }: { store: KeyValueStore;
       };
     },
 
-    async chooseSetup(sid: string, setup: { bucketPaise: number; horizon: string }, now: Date): Promise<void> {
-      if (!BUCKET_DEPTHS.has(setup.bucketPaise)) throw new InvalidSetupError(`Not a bucket: ${setup.bucketPaise}`);
-      if (!(HORIZONS as readonly string[]).includes(setup.horizon)) throw new InvalidSetupError(`Not a horizon: ${setup.horizon}`);
+    /** Record Step 2's choices. Anything but a real bucket and horizon is refused. */
+    async chooseSetup(sid: string, setup: { bucketPaise: number; horizon: string }, now: Date): Promise<SetupResult> {
+      if (!BUCKET_DEPTHS.has(setup.bucketPaise)) return { ok: false, reason: "bucket" };
+      if (!(HORIZONS as readonly string[]).includes(setup.horizon)) return { ok: false, reason: "horizon" };
       const stored = await read(sid, now);
-      if (!stored) throw new InvalidSetupError("No live session");
+      if (!stored) return { ok: false, reason: "session" };
       await write(sid, { ...stored, bucketPaise: setup.bucketPaise, horizon: setup.horizon as Horizon }, now);
+      return { ok: true };
     },
 
     async end(sid: string): Promise<void> {

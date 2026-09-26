@@ -36,7 +36,7 @@ describe("buildPlan (integration)", () => {
     const { kite, sessions, sid } = await loggedIn();
     expect(requiredRedirect(await sessions.load(sid, FRI_NOON), 3)).toBe("/setup");
 
-    await sessions.chooseSetup(sid, { bucketPaise: rupees(100_000), horizon: "6-12m" }, FRI_NOON);
+    expect(await sessions.chooseSetup(sid, { bucketPaise: rupees(100_000), horizon: "6-12m" }, FRI_NOON)).toEqual({ ok: true });
     const session = (await sessions.load(sid, FRI_NOON))!;
     expect(requiredRedirect(session, 3)).toBeNull();
 
