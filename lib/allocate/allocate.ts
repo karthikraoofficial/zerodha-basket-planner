@@ -83,6 +83,19 @@ export function buyLimitPaise(closePaise: number): number {
   return Math.floor(scaled / (1000 * tick)) * tick;
 }
 
+export class AllocationInvariantError extends Error {}
+
+/** Hard rule (spec §6b): Σ(qty × limit) ≤ bucket. Checked before any plan is shown. */
+export function assertWithinBucket(
+  positions: readonly { symbol: string; qty: number; limitPaise: number }[],
+  bucketPaise: number,
+): void {
+  const committed = positions.reduce((sum, p) => sum + p.qty * p.limitPaise, 0);
+  if (!Number.isSafeInteger(committed) || committed > bucketPaise) {
+    throw new AllocationInvariantError(`Plan total ${committed} paise exceeds bucket ${bucketPaise} paise`);
+  }
+}
+
 const FEASIBILITY_MULTIPLE = 1.5;
 
 type Leg = { c: AllocCandidate; limitPaise: number; upsideMidPct: number; targetWeight: number };
@@ -197,6 +210,7 @@ export function allocate({ passed, bucketPaise, depth }: AllocateInput): Allocat
     targetWeight: l.targetWeight,
     weight: weightOf(l.qty, l.limitPaise),
   }));
+  assertWithinBucket(positions, bucketPaise);
   const committedPaise = total(legs);
   const absErrors = positions.map((p) => Math.abs(p.weight - p.targetWeight));
   return {

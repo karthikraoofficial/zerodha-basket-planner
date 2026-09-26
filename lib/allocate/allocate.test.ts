@@ -110,6 +110,18 @@ describe("integer solve", () => {
   });
 });
 
+describe("integer solve: greedy add", () => {
+  it("adds a share to the most-underweight name only while it fits and reduces its error", () => {
+    // ₹1,000; targets 75% / 25%. Seeds: AAA 73 × ₹10.15 = ₹740.95, BBB 8 × ₹30.45 = ₹243.60 → ₹984.55.
+    // AAA's 74th share (₹751.10, error 0.0011 < 0.00905) fits in the ₹15.45 left; BBB's doesn't.
+    const passed = [cand(1, "AAA", 10, 20, 40), cand(2, "BBB", 30, 5, 15)];
+    const plan = allocate({ passed, bucketPaise: rupees(1000), depth: 2 });
+
+    expect(plan.positions.map((p) => [p.symbol, p.qty])).toEqual([["AAA", 74], ["BBB", 8]]);
+    expect(plan.totals.committedPaise).toBe(rupees(994.7));
+  });
+});
+
 describe("plan totals", () => {
   it("reports weight error and weighted upside for the golden plan", () => {
     const plan = allocate({ passed: SEP24, bucketPaise: rupees(100_000), depth: 12 });
