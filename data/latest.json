@@ -1,32 +1,32 @@
 {
   "schema_version": 2,
-  "screen_date": "2026-09-24",
-  "generated_at": "2026-09-24T07:40:00Z",
+  "screen_date": "2026-09-28",
+  "generated_at": "2026-09-28T06:18:16Z",
   "horizons": {
-    "6-12m": {
+    "3-6m": {
       "candidates": [
         {
           "rank": 1,
-          "symbol": "ELLEN",
+          "symbol": "KMEW",
           "exchange": "NSE",
-          "name": "Ellenbarrie Industrial Gases",
+          "name": "Knowledge Marine & Engineering Works",
           "upside_low_pct": 20,
-          "upside_high_pct": 40,
-          "rationale": "PEG 1.03; OCF 128% of profit; debt 247 -> 184 Cr (SAMPLE DATA - not a recommendation)",
+          "upside_high_pct": 37,
+          "rationale": "PEG 0.21; Rs279 Cr Mumbai Port tug order; CARE outlook Positive; 5:1 split at 30 Sep AGM",
           "flags": [
-            "sample"
+            "OCF 61% of profit"
           ]
         },
         {
           "rank": 2,
-          "symbol": "KMEW",
+          "symbol": "ELLEN",
           "exchange": "NSE",
-          "name": "Knowledge Marine & Engineering Works",
+          "name": "Ellenbarrie Industrial Gases",
           "upside_low_pct": 18,
-          "upside_high_pct": 35,
-          "rationale": "SAMPLE DATA for development - not a recommendation",
+          "upside_high_pct": 38,
+          "rationale": "PEG 1.03; OCF 128% of profit; debt 247 -> 184 Cr",
           "flags": [
-            "sample"
+            "ROCE 14.5%"
           ]
         },
         {
@@ -36,9 +36,206 @@
           "name": "Marksans Pharma",
           "upside_low_pct": 18,
           "upside_high_pct": 32,
-          "rationale": "SAMPLE DATA for development - not a recommendation",
+          "rationale": "PEG 0.79; ROCE 25.6%; near debt-free; rising 20/50DMA",
+          "flags": []
+        },
+        {
+          "rank": 4,
+          "symbol": "PRECWIRE",
+          "exchange": "NSE",
+          "name": "Precision Wires India",
+          "upside_low_pct": 16,
+          "upside_high_pct": 31,
+          "rationale": "PEG 0.62; ROCE 32.9%; OCF 126% of profit; copper-cathode plant in trial",
           "flags": [
-            "sample"
+            "Dilution: Rs150 Cr preferential + CDs at 400"
+          ]
+        },
+        {
+          "rank": 5,
+          "symbol": "KPL",
+          "exchange": "NSE",
+          "name": "Kwality Pharmaceuticals",
+          "upside_low_pct": 15,
+          "upside_high_pct": 32,
+          "rationale": "PEG 0.53; TTM profit +88%; ROCE 23.9%",
+          "flags": [
+            "OCF only 25% of profit"
+          ]
+        },
+        {
+          "rank": 6,
+          "symbol": "GPPL",
+          "exchange": "NSE",
+          "name": "Gujarat Pipavav Port",
+          "upside_low_pct": 16,
+          "upside_high_pct": 30,
+          "rationale": "P/E 14.9, PEG 0.43; ROCE 30%; OCF ~100% of profit; 6.3% yield",
+          "flags": [
+            "Weakest trend of the passes"
+          ]
+        },
+        {
+          "rank": 7,
+          "symbol": "COMSYN",
+          "exchange": "NSE",
+          "name": "Commercial Syn Bags",
+          "upside_low_pct": 15,
+          "upside_high_pct": 30,
+          "rationale": "PEG 0.49; TTM profit +76%; OCF 32 vs 27 Cr; promoter warrant conversion 17 Sep",
+          "flags": [
+            "Borrowings 113 Cr"
+          ]
+        },
+        {
+          "rank": 8,
+          "symbol": "SAKAR",
+          "exchange": "NSE",
+          "name": "Sakar Healthcare",
+          "upside_low_pct": 12,
+          "upside_high_pct": 28,
+          "rationale": "PEG 0.85; TTM profit +82%; OCF 163% of profit",
+          "flags": [
+            "ROCE 12.4%",
+            "14.9% above 50DMA, at the extension line"
+          ]
+        },
+        {
+          "rank": 9,
+          "symbol": "SHADOWFAX",
+          "exchange": "NSE",
+          "name": "Shadowfax Technologies",
+          "upside_low_pct": 12,
+          "upside_high_pct": 28,
+          "rationale": "Profit ramp 14 -> 37 -> 55 -> 66 Cr; OCF 342 vs 115 Cr",
+          "flags": [
+            "P/E 96",
+            "ROCE 10.3%",
+            "Thin ~5% net margin"
+          ]
+        },
+        {
+          "rank": 10,
+          "symbol": "CASTROLIND",
+          "exchange": "NSE",
+          "name": "Castrol India",
+          "upside_low_pct": 8,
+          "upside_high_pct": 18,
+          "rationale": "P/E 18.5; ROCE 60%; OCF 115%; BP 65% stake sale to Stonepeak pending",
+          "flags": [
+            "PEG 1.42",
+            "Mature business, lowest upside"
+          ]
+        },
+        {
+          "rank": 11,
+          "symbol": "RAMRAT",
+          "exchange": "NSE",
+          "name": "Ram Ratna Wires",
+          "upside_low_pct": 15,
+          "upside_high_pct": 30,
+          "rationale": "PEG ~0.32 on screen data; rising 20/50DMA",
+          "flags": [
+            "Near-miss: 15.4% above 50DMA",
+            "Company page not verified"
+          ]
+        },
+        {
+          "rank": 12,
+          "symbol": "JASH",
+          "exchange": "NSE",
+          "name": "Jash Engineering",
+          "upside_low_pct": 10,
+          "upside_high_pct": 25,
+          "rationale": "Volume breakout to new high 21 Sep; rising 20/50DMA",
+          "flags": [
+            "Near-miss: 17.0% above 50DMA",
+            "Quarterly profit jump off a small base",
+            "Company page not verified"
+          ]
+        },
+        {
+          "rank": 13,
+          "symbol": "SAMBHV",
+          "exchange": "NSE",
+          "name": "Sambhv Steel Tubes",
+          "upside_low_pct": 10,
+          "upside_high_pct": 25,
+          "rationale": "PEG ~0.40 on screen data; breakout on heavy volume",
+          "flags": [
+            "Near-miss: 21.3% above 50DMA",
+            "Steel-linked, cyclical",
+            "Company page not verified"
+          ]
+        },
+        {
+          "rank": 14,
+          "symbol": "ROLEXRINGS",
+          "exchange": "NSE",
+          "name": "Rolex Rings",
+          "upside_low_pct": 8,
+          "upside_high_pct": 20,
+          "rationale": "At 3-month high; 50DMA rising",
+          "flags": [
+            "Near-miss: 17.1% above 50DMA",
+            "PEG 1.18",
+            "Company page not verified"
+          ]
+        },
+        {
+          "rank": 15,
+          "symbol": "ENGINERSIN",
+          "exchange": "NSE",
+          "name": "Engineers India",
+          "upside_low_pct": 8,
+          "upside_high_pct": 22,
+          "rationale": "Quarterly profit +141% on screen data; breakout to new high",
+          "flags": [
+            "Near-miss: 23.6% above 50DMA",
+            "Sales -5.8% YoY",
+            "Company page not verified"
+          ]
+        }
+      ]
+    },
+    "6-12m": {
+      "candidates": [
+        {
+          "rank": 1,
+          "symbol": "KMEW",
+          "exchange": "NSE",
+          "name": "Knowledge Marine & Engineering Works",
+          "upside_low_pct": 32,
+          "upside_high_pct": 59,
+          "rationale": "PEG 0.21; Rs279 Cr Mumbai Port tug order; CARE outlook Positive; 5:1 split at 30 Sep AGM",
+          "flags": [
+            "OCF 61% of profit",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 2,
+          "symbol": "ELLEN",
+          "exchange": "NSE",
+          "name": "Ellenbarrie Industrial Gases",
+          "upside_low_pct": 29,
+          "upside_high_pct": 61,
+          "rationale": "PEG 1.03; OCF 128% of profit; debt 247 -> 184 Cr",
+          "flags": [
+            "ROCE 14.5%",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 3,
+          "symbol": "MARKSANS",
+          "exchange": "NSE",
+          "name": "Marksans Pharma",
+          "upside_low_pct": 29,
+          "upside_high_pct": 51,
+          "rationale": "PEG 0.79; ROCE 25.6%; near debt-free; rising 20/50DMA",
+          "flags": [
+            "Upside scaled from 3-6m estimate"
           ]
         },
         {
@@ -46,47 +243,590 @@
           "symbol": "PRECWIRE",
           "exchange": "NSE",
           "name": "Precision Wires India",
-          "upside_low_pct": 15,
-          "upside_high_pct": 30,
-          "rationale": "SAMPLE DATA for development - not a recommendation",
+          "upside_low_pct": 26,
+          "upside_high_pct": 50,
+          "rationale": "PEG 0.62; ROCE 32.9%; OCF 126% of profit; copper-cathode plant in trial",
           "flags": [
-            "sample"
+            "Dilution: Rs150 Cr preferential + CDs at 400",
+            "Upside scaled from 3-6m estimate"
           ]
         },
         {
           "rank": 5,
-          "symbol": "GPPL",
+          "symbol": "KPL",
           "exchange": "NSE",
-          "name": "Gujarat Pipavav Port",
-          "upside_low_pct": 15,
-          "upside_high_pct": 28,
-          "rationale": "SAMPLE DATA for development - not a recommendation",
+          "name": "Kwality Pharmaceuticals",
+          "upside_low_pct": 24,
+          "upside_high_pct": 51,
+          "rationale": "PEG 0.53; TTM profit +88%; ROCE 23.9%",
           "flags": [
-            "sample"
+            "OCF only 25% of profit",
+            "Upside scaled from 3-6m estimate"
           ]
         },
         {
           "rank": 6,
-          "symbol": "USHAMART",
+          "symbol": "GPPL",
           "exchange": "NSE",
-          "name": "Usha Martin",
-          "upside_low_pct": 10,
-          "upside_high_pct": 20,
-          "rationale": "SAMPLE DATA for development - not a recommendation",
+          "name": "Gujarat Pipavav Port",
+          "upside_low_pct": 26,
+          "upside_high_pct": 48,
+          "rationale": "P/E 14.9, PEG 0.43; ROCE 30%; OCF ~100% of profit; 6.3% yield",
           "flags": [
-            "sample"
+            "Weakest trend of the passes",
+            "Upside scaled from 3-6m estimate"
           ]
         },
         {
           "rank": 7,
+          "symbol": "COMSYN",
+          "exchange": "NSE",
+          "name": "Commercial Syn Bags",
+          "upside_low_pct": 24,
+          "upside_high_pct": 48,
+          "rationale": "PEG 0.49; TTM profit +76%; OCF 32 vs 27 Cr; promoter warrant conversion 17 Sep",
+          "flags": [
+            "Borrowings 113 Cr",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 8,
+          "symbol": "SAKAR",
+          "exchange": "NSE",
+          "name": "Sakar Healthcare",
+          "upside_low_pct": 19,
+          "upside_high_pct": 45,
+          "rationale": "PEG 0.85; TTM profit +82%; OCF 163% of profit",
+          "flags": [
+            "ROCE 12.4%",
+            "14.9% above 50DMA, at the extension line",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 9,
+          "symbol": "SHADOWFAX",
+          "exchange": "NSE",
+          "name": "Shadowfax Technologies",
+          "upside_low_pct": 19,
+          "upside_high_pct": 45,
+          "rationale": "Profit ramp 14 -> 37 -> 55 -> 66 Cr; OCF 342 vs 115 Cr",
+          "flags": [
+            "P/E 96",
+            "ROCE 10.3%",
+            "Thin ~5% net margin",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 10,
+          "symbol": "CASTROLIND",
+          "exchange": "NSE",
+          "name": "Castrol India",
+          "upside_low_pct": 13,
+          "upside_high_pct": 29,
+          "rationale": "P/E 18.5; ROCE 60%; OCF 115%; BP 65% stake sale to Stonepeak pending",
+          "flags": [
+            "PEG 1.42",
+            "Mature business, lowest upside",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 11,
+          "symbol": "RAMRAT",
+          "exchange": "NSE",
+          "name": "Ram Ratna Wires",
+          "upside_low_pct": 24,
+          "upside_high_pct": 48,
+          "rationale": "PEG ~0.32 on screen data; rising 20/50DMA",
+          "flags": [
+            "Near-miss: 15.4% above 50DMA",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 12,
+          "symbol": "JASH",
+          "exchange": "NSE",
+          "name": "Jash Engineering",
+          "upside_low_pct": 16,
+          "upside_high_pct": 40,
+          "rationale": "Volume breakout to new high 21 Sep; rising 20/50DMA",
+          "flags": [
+            "Near-miss: 17.0% above 50DMA",
+            "Quarterly profit jump off a small base",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 13,
+          "symbol": "SAMBHV",
+          "exchange": "NSE",
+          "name": "Sambhv Steel Tubes",
+          "upside_low_pct": 16,
+          "upside_high_pct": 40,
+          "rationale": "PEG ~0.40 on screen data; breakout on heavy volume",
+          "flags": [
+            "Near-miss: 21.3% above 50DMA",
+            "Steel-linked, cyclical",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 14,
+          "symbol": "ROLEXRINGS",
+          "exchange": "NSE",
+          "name": "Rolex Rings",
+          "upside_low_pct": 13,
+          "upside_high_pct": 32,
+          "rationale": "At 3-month high; 50DMA rising",
+          "flags": [
+            "Near-miss: 17.1% above 50DMA",
+            "PEG 1.18",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 15,
+          "symbol": "ENGINERSIN",
+          "exchange": "NSE",
+          "name": "Engineers India",
+          "upside_low_pct": 13,
+          "upside_high_pct": 35,
+          "rationale": "Quarterly profit +141% on screen data; breakout to new high",
+          "flags": [
+            "Near-miss: 23.6% above 50DMA",
+            "Sales -5.8% YoY",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        }
+      ]
+    },
+    "12-18m": {
+      "candidates": [
+        {
+          "rank": 1,
+          "symbol": "KMEW",
+          "exchange": "NSE",
+          "name": "Knowledge Marine & Engineering Works",
+          "upside_low_pct": 44,
+          "upside_high_pct": 81,
+          "rationale": "PEG 0.21; Rs279 Cr Mumbai Port tug order; CARE outlook Positive; 5:1 split at 30 Sep AGM",
+          "flags": [
+            "OCF 61% of profit",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 2,
+          "symbol": "ELLEN",
+          "exchange": "NSE",
+          "name": "Ellenbarrie Industrial Gases",
+          "upside_low_pct": 40,
+          "upside_high_pct": 84,
+          "rationale": "PEG 1.03; OCF 128% of profit; debt 247 -> 184 Cr",
+          "flags": [
+            "ROCE 14.5%",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 3,
+          "symbol": "MARKSANS",
+          "exchange": "NSE",
+          "name": "Marksans Pharma",
+          "upside_low_pct": 40,
+          "upside_high_pct": 70,
+          "rationale": "PEG 0.79; ROCE 25.6%; near debt-free; rising 20/50DMA",
+          "flags": [
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 4,
+          "symbol": "PRECWIRE",
+          "exchange": "NSE",
+          "name": "Precision Wires India",
+          "upside_low_pct": 35,
+          "upside_high_pct": 68,
+          "rationale": "PEG 0.62; ROCE 32.9%; OCF 126% of profit; copper-cathode plant in trial",
+          "flags": [
+            "Dilution: Rs150 Cr preferential + CDs at 400",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 5,
           "symbol": "KPL",
           "exchange": "NSE",
-          "name": "KPL (sample)",
-          "upside_low_pct": 15,
-          "upside_high_pct": 30,
-          "rationale": "SAMPLE DATA for development - not a recommendation",
+          "name": "Kwality Pharmaceuticals",
+          "upside_low_pct": 33,
+          "upside_high_pct": 70,
+          "rationale": "PEG 0.53; TTM profit +88%; ROCE 23.9%",
           "flags": [
-            "sample"
+            "OCF only 25% of profit",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 6,
+          "symbol": "GPPL",
+          "exchange": "NSE",
+          "name": "Gujarat Pipavav Port",
+          "upside_low_pct": 35,
+          "upside_high_pct": 66,
+          "rationale": "P/E 14.9, PEG 0.43; ROCE 30%; OCF ~100% of profit; 6.3% yield",
+          "flags": [
+            "Weakest trend of the passes",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 7,
+          "symbol": "COMSYN",
+          "exchange": "NSE",
+          "name": "Commercial Syn Bags",
+          "upside_low_pct": 33,
+          "upside_high_pct": 66,
+          "rationale": "PEG 0.49; TTM profit +76%; OCF 32 vs 27 Cr; promoter warrant conversion 17 Sep",
+          "flags": [
+            "Borrowings 113 Cr",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 8,
+          "symbol": "SAKAR",
+          "exchange": "NSE",
+          "name": "Sakar Healthcare",
+          "upside_low_pct": 26,
+          "upside_high_pct": 62,
+          "rationale": "PEG 0.85; TTM profit +82%; OCF 163% of profit",
+          "flags": [
+            "ROCE 12.4%",
+            "14.9% above 50DMA, at the extension line",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 9,
+          "symbol": "SHADOWFAX",
+          "exchange": "NSE",
+          "name": "Shadowfax Technologies",
+          "upside_low_pct": 26,
+          "upside_high_pct": 62,
+          "rationale": "Profit ramp 14 -> 37 -> 55 -> 66 Cr; OCF 342 vs 115 Cr",
+          "flags": [
+            "P/E 96",
+            "ROCE 10.3%",
+            "Thin ~5% net margin",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 10,
+          "symbol": "CASTROLIND",
+          "exchange": "NSE",
+          "name": "Castrol India",
+          "upside_low_pct": 18,
+          "upside_high_pct": 40,
+          "rationale": "P/E 18.5; ROCE 60%; OCF 115%; BP 65% stake sale to Stonepeak pending",
+          "flags": [
+            "PEG 1.42",
+            "Mature business, lowest upside",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 11,
+          "symbol": "RAMRAT",
+          "exchange": "NSE",
+          "name": "Ram Ratna Wires",
+          "upside_low_pct": 33,
+          "upside_high_pct": 66,
+          "rationale": "PEG ~0.32 on screen data; rising 20/50DMA",
+          "flags": [
+            "Near-miss: 15.4% above 50DMA",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 12,
+          "symbol": "JASH",
+          "exchange": "NSE",
+          "name": "Jash Engineering",
+          "upside_low_pct": 22,
+          "upside_high_pct": 55,
+          "rationale": "Volume breakout to new high 21 Sep; rising 20/50DMA",
+          "flags": [
+            "Near-miss: 17.0% above 50DMA",
+            "Quarterly profit jump off a small base",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 13,
+          "symbol": "SAMBHV",
+          "exchange": "NSE",
+          "name": "Sambhv Steel Tubes",
+          "upside_low_pct": 22,
+          "upside_high_pct": 55,
+          "rationale": "PEG ~0.40 on screen data; breakout on heavy volume",
+          "flags": [
+            "Near-miss: 21.3% above 50DMA",
+            "Steel-linked, cyclical",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 14,
+          "symbol": "ROLEXRINGS",
+          "exchange": "NSE",
+          "name": "Rolex Rings",
+          "upside_low_pct": 18,
+          "upside_high_pct": 44,
+          "rationale": "At 3-month high; 50DMA rising",
+          "flags": [
+            "Near-miss: 17.1% above 50DMA",
+            "PEG 1.18",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 15,
+          "symbol": "ENGINERSIN",
+          "exchange": "NSE",
+          "name": "Engineers India",
+          "upside_low_pct": 18,
+          "upside_high_pct": 48,
+          "rationale": "Quarterly profit +141% on screen data; breakout to new high",
+          "flags": [
+            "Near-miss: 23.6% above 50DMA",
+            "Sales -5.8% YoY",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        }
+      ]
+    },
+    "18-24m": {
+      "candidates": [
+        {
+          "rank": 1,
+          "symbol": "KMEW",
+          "exchange": "NSE",
+          "name": "Knowledge Marine & Engineering Works",
+          "upside_low_pct": 56,
+          "upside_high_pct": 104,
+          "rationale": "PEG 0.21; Rs279 Cr Mumbai Port tug order; CARE outlook Positive; 5:1 split at 30 Sep AGM",
+          "flags": [
+            "OCF 61% of profit",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 2,
+          "symbol": "ELLEN",
+          "exchange": "NSE",
+          "name": "Ellenbarrie Industrial Gases",
+          "upside_low_pct": 50,
+          "upside_high_pct": 106,
+          "rationale": "PEG 1.03; OCF 128% of profit; debt 247 -> 184 Cr",
+          "flags": [
+            "ROCE 14.5%",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 3,
+          "symbol": "MARKSANS",
+          "exchange": "NSE",
+          "name": "Marksans Pharma",
+          "upside_low_pct": 50,
+          "upside_high_pct": 90,
+          "rationale": "PEG 0.79; ROCE 25.6%; near debt-free; rising 20/50DMA",
+          "flags": [
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 4,
+          "symbol": "PRECWIRE",
+          "exchange": "NSE",
+          "name": "Precision Wires India",
+          "upside_low_pct": 45,
+          "upside_high_pct": 87,
+          "rationale": "PEG 0.62; ROCE 32.9%; OCF 126% of profit; copper-cathode plant in trial",
+          "flags": [
+            "Dilution: Rs150 Cr preferential + CDs at 400",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 5,
+          "symbol": "KPL",
+          "exchange": "NSE",
+          "name": "Kwality Pharmaceuticals",
+          "upside_low_pct": 42,
+          "upside_high_pct": 90,
+          "rationale": "PEG 0.53; TTM profit +88%; ROCE 23.9%",
+          "flags": [
+            "OCF only 25% of profit",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 6,
+          "symbol": "GPPL",
+          "exchange": "NSE",
+          "name": "Gujarat Pipavav Port",
+          "upside_low_pct": 45,
+          "upside_high_pct": 84,
+          "rationale": "P/E 14.9, PEG 0.43; ROCE 30%; OCF ~100% of profit; 6.3% yield",
+          "flags": [
+            "Weakest trend of the passes",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 7,
+          "symbol": "COMSYN",
+          "exchange": "NSE",
+          "name": "Commercial Syn Bags",
+          "upside_low_pct": 42,
+          "upside_high_pct": 84,
+          "rationale": "PEG 0.49; TTM profit +76%; OCF 32 vs 27 Cr; promoter warrant conversion 17 Sep",
+          "flags": [
+            "Borrowings 113 Cr",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 8,
+          "symbol": "SAKAR",
+          "exchange": "NSE",
+          "name": "Sakar Healthcare",
+          "upside_low_pct": 34,
+          "upside_high_pct": 78,
+          "rationale": "PEG 0.85; TTM profit +82%; OCF 163% of profit",
+          "flags": [
+            "ROCE 12.4%",
+            "14.9% above 50DMA, at the extension line",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 9,
+          "symbol": "SHADOWFAX",
+          "exchange": "NSE",
+          "name": "Shadowfax Technologies",
+          "upside_low_pct": 34,
+          "upside_high_pct": 78,
+          "rationale": "Profit ramp 14 -> 37 -> 55 -> 66 Cr; OCF 342 vs 115 Cr",
+          "flags": [
+            "P/E 96",
+            "ROCE 10.3%",
+            "Thin ~5% net margin",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 10,
+          "symbol": "CASTROLIND",
+          "exchange": "NSE",
+          "name": "Castrol India",
+          "upside_low_pct": 22,
+          "upside_high_pct": 50,
+          "rationale": "P/E 18.5; ROCE 60%; OCF 115%; BP 65% stake sale to Stonepeak pending",
+          "flags": [
+            "PEG 1.42",
+            "Mature business, lowest upside",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 11,
+          "symbol": "RAMRAT",
+          "exchange": "NSE",
+          "name": "Ram Ratna Wires",
+          "upside_low_pct": 42,
+          "upside_high_pct": 84,
+          "rationale": "PEG ~0.32 on screen data; rising 20/50DMA",
+          "flags": [
+            "Near-miss: 15.4% above 50DMA",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 12,
+          "symbol": "JASH",
+          "exchange": "NSE",
+          "name": "Jash Engineering",
+          "upside_low_pct": 28,
+          "upside_high_pct": 70,
+          "rationale": "Volume breakout to new high 21 Sep; rising 20/50DMA",
+          "flags": [
+            "Near-miss: 17.0% above 50DMA",
+            "Quarterly profit jump off a small base",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 13,
+          "symbol": "SAMBHV",
+          "exchange": "NSE",
+          "name": "Sambhv Steel Tubes",
+          "upside_low_pct": 28,
+          "upside_high_pct": 70,
+          "rationale": "PEG ~0.40 on screen data; breakout on heavy volume",
+          "flags": [
+            "Near-miss: 21.3% above 50DMA",
+            "Steel-linked, cyclical",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 14,
+          "symbol": "ROLEXRINGS",
+          "exchange": "NSE",
+          "name": "Rolex Rings",
+          "upside_low_pct": 22,
+          "upside_high_pct": 56,
+          "rationale": "At 3-month high; 50DMA rising",
+          "flags": [
+            "Near-miss: 17.1% above 50DMA",
+            "PEG 1.18",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
+          ]
+        },
+        {
+          "rank": 15,
+          "symbol": "ENGINERSIN",
+          "exchange": "NSE",
+          "name": "Engineers India",
+          "upside_low_pct": 22,
+          "upside_high_pct": 62,
+          "rationale": "Quarterly profit +141% on screen data; breakout to new high",
+          "flags": [
+            "Near-miss: 23.6% above 50DMA",
+            "Sales -5.8% YoY",
+            "Company page not verified",
+            "Upside scaled from 3-6m estimate"
           ]
         }
       ]
